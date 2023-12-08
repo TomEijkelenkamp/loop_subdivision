@@ -87,21 +87,17 @@ void LoopSubdivider::geometryRefinement(Mesh& controlMesh,
  * @return The coordinates of the new vertex point.
  */
 QVector3D LoopSubdivider::vertexPoint(const Vertex& vertex) const {
-  try {
-  QVector3D coords = vertex.coords * 10.0;
-  HalfEdge* halfedge = vertex.out;
-  HalfEdge* halfedge_twin;
+    QVector3D coords = vertex.coords * 10.0;
+    HalfEdge* halfedge = vertex.out;
+    HalfEdge* halfedge_twin;
 
-  do {
-    halfedge_twin = halfedge->twin;
-    coords += halfedge_twin->origin->coords;
-    halfedge = halfedge_twin->next;
-  } while (halfedge != vertex.out);
+    do {
+      halfedge_twin = halfedge->twin;
+      coords += halfedge_twin->origin->coords;
+      halfedge = halfedge_twin->next;
+    } while (halfedge != vertex.out);
 
-  return coords / (10.0 + vertex.valence);
-  } catch (...) {
-    qDebug() << "Error calculating vertex point";
-  }
+    return coords / (10.0 + vertex.valence);
 }
 
 /**
@@ -112,22 +108,12 @@ QVector3D LoopSubdivider::vertexPoint(const Vertex& vertex) const {
  * @return The coordinates of the new edge point.
  */
 QVector3D LoopSubdivider::edgePoint(const HalfEdge& edge) const {
-  QVector3D edgePt = QVector3D();
-  int weight_total = 0;
-  try {
-      edgePt = edge.origin->coords * 6.0;
-      weight_total += 6.0;
-      edgePt += edge.next->origin->coords * 6.0;
-      weight_total += 6.0;
+    QVector3D edgePt = edge.origin->coords * 6.0;
+    edgePt += edge.next->origin->coords * 6.0;
 
-      edgePt += edge.next->next->origin->coords * 2.0;
-      weight_total += 2.0;
-      edgePt += edge.twin->next->next->origin->coords * 2.0;
-      weight_total += 2.0;
-  } catch (...) {
-      qDebug() << "Error calculating edge point";
-  }
-  return edgePt /= (weight_total > 0 ? weight_total : 1);
+    edgePt += edge.next->next->origin->coords * 2.0;
+    edgePt += edge.twin->next->next->origin->coords * 2.0;
+    return edgePt /= 16.0;
 }
 
 /**
