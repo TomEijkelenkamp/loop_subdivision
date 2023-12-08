@@ -17,11 +17,11 @@ LoopSubdivider::LoopSubdivider() {}
  * control mesh.
  */
 Mesh LoopSubdivider::subdivide(Mesh& controlMesh) const {
-  Mesh newMesh;
-  reserveSizes(controlMesh, newMesh);
-  geometryRefinement(controlMesh, newMesh);
-  topologyRefinement(controlMesh, newMesh);
-  return newMesh;
+    Mesh newMesh;
+    reserveSizes(controlMesh, newMesh);
+    geometryRefinement(controlMesh, newMesh);
+    topologyRefinement(controlMesh, newMesh);
+    return newMesh;
 }
 
 /**
@@ -31,15 +31,15 @@ Mesh LoopSubdivider::subdivide(Mesh& controlMesh) const {
  * @param newMesh The new mesh. At this point, the mesh is fully empty.
  */
 void LoopSubdivider::reserveSizes(Mesh& controlMesh, Mesh& newMesh) const {
-  int newNumEdges = 2 * controlMesh.numEdges() + 3 * controlMesh.numFaces();
-  int newNumFaces = controlMesh.numFaces() * 4;
-  int newNumHalfEdges = controlMesh.numHalfEdges() * 4;
-  int newNumVerts = controlMesh.numVerts() + controlMesh.numEdges();
+    int newNumEdges = 2 * controlMesh.numEdges() + 3 * controlMesh.numFaces();
+    int newNumFaces = controlMesh.numFaces() * 4;
+    int newNumHalfEdges = controlMesh.numHalfEdges() * 4;
+    int newNumVerts = controlMesh.numVerts() + controlMesh.numEdges();
 
-  newMesh.getVertices().resize(newNumVerts);
-  newMesh.getHalfEdges().resize(newNumHalfEdges);
-  newMesh.getFaces().resize(newNumFaces);
-  newMesh.edgeCount = newNumEdges;
+    newMesh.getVertices().resize(newNumVerts);
+    newMesh.getHalfEdges().resize(newNumHalfEdges);
+    newMesh.getFaces().resize(newNumFaces);
+    newMesh.edgeCount = newNumEdges;
 }
 
 /**
@@ -52,31 +52,32 @@ void LoopSubdivider::reserveSizes(Mesh& controlMesh, Mesh& newMesh) const {
  */
 void LoopSubdivider::geometryRefinement(Mesh& controlMesh,
                                         Mesh& newMesh) const {
-  QVector<Vertex>& newVertices = newMesh.getVertices();
-  QVector<Vertex>& vertices = controlMesh.getVertices();
+    QVector<Vertex>& newVertices = newMesh.getVertices();
+    QVector<Vertex>& vertices = controlMesh.getVertices();
 
-  // Vertex Points
-  for (int v = 0; v < controlMesh.numVerts(); v++) {
-    QVector3D coords = vertexPoint(vertices[v]);
-    Vertex vertPoint(coords, nullptr, vertices[v].valence, v);
-    newVertices[v] = vertPoint;
-  }
-
-  // Edge Points
-  QVector<HalfEdge>& halfEdges = controlMesh.getHalfEdges();
-  for (int h = 0; h < controlMesh.numHalfEdges(); h++) {
-    HalfEdge currentEdge = halfEdges[h];
-    // Only create a new vertex per set of halfEdges (i.e. once per undirected
-    // edge)
-    if (h > currentEdge.twinIdx()) {
-      QVector3D coords = edgePoint(currentEdge);
-      int v = controlMesh.numVerts() + currentEdge.edgeIdx();
-      // TODO: check the valence at the boundaries
-      int valence = 6;
-      Vertex edgePointVert = Vertex(coords, nullptr, valence, v);
-      newVertices[v] = edgePointVert;
+    // Vertex Points
+    for (int v = 0; v < controlMesh.numVerts(); v++) {
+        QVector3D coords = vertexPoint(vertices[v]);
+        Vertex vertPoint(coords, nullptr, vertices[v].valence, v);
+//        vertPoint.recalculateValence();
+        newVertices[v] = vertPoint;
     }
-  }
+
+    // Edge Points
+    QVector<HalfEdge>& halfEdges = controlMesh.getHalfEdges();
+    for (int h = 0; h < controlMesh.numHalfEdges(); h++) {
+        HalfEdge currentEdge = halfEdges[h];
+        // Only create a new vertex per set of halfEdges (i.e. once per undirected
+        // edge)
+        if (h > currentEdge.twinIdx()) {
+            QVector3D coords = edgePoint(currentEdge);
+            int v = controlMesh.numVerts() + currentEdge.edgeIdx();
+            // TODO: check the valence at the boundaries
+            int valence = 6;
+            Vertex edgePointVert = Vertex(coords, nullptr, valence, v);
+            newVertices[v] = edgePointVert;
+        }
+    }
 }
 
 /**
@@ -87,10 +88,50 @@ void LoopSubdivider::geometryRefinement(Mesh& controlMesh,
  * @return The coordinates of the new vertex point.
  */
 QVector3D LoopSubdivider::vertexPoint(const Vertex& vertex) const {
-  // TODO: use vertex stencil here (either Loop's original stencil or the
-  // simpler Warren's stencil).
-  return vertex.coords;
+    QVector3D coords;
+    HalfEdge* current_halfedge;
+    HalfEdge* end_halfedge;
+
+    QVector<QVector3D> vertices;
+
+    float beta;
+
+    if (vertex.isBoundaryVertex()) {
+        current_halfedge = vertex.prevBoundaryHalfEdge();
+        end_halfedge = vertex.nextBoundaryHalfEdge();
+        beta = vertex.valence > 3 ? 3/(8*vertex.valence) : 3/16;
+        coords = vertex.coords * (1-vertex.valence*beta);
+    } else {
+        current_halfedge = vertex.out->prev;
+        end_halfedge = vertex.out->prev->twin->prev->twin;
+        beta = 1;
+        coords = vertex.coords * 10.0;
+    }
+
+    int iteration = 0;
+
+    coords += current_halfedge->origin->coords * beta;
+    vertices.append(current_halfedge->origin->coords);
+    coords += current_halfedge->next->next->origin->coords * beta;
+    if (vertices.contains(current_halfedge->next->next->origin->coords)) qDebug() << "Duplicate: " << iteration;
+    vertices.append(current_halfedge->next->next->origin->coords);
+
+
+    while (current_halfedge->next != end_halfedge) {
+        if (current_halfedge->next->next->origin->coords == vertex.coords) qDebug() << "Yes";
+        current_halfedge = current_halfedge->next->twin;
+        coords += current_halfedge->next->next->origin->coords * beta;
+        iteration++;
+        if (vertices.contains(current_halfedge->next->next->origin->coords)) qDebug() << "Duplicate: " << iteration;
+        vertices.append(current_halfedge->next->next->origin->coords);
+    }
+
+    qDebug() << "Number of vertices: " << vertices.size() << " valence: " << vertex.valence;
+
+
+    return beta == 1 ? coords / (10.0 + vertex.valence) : coords;
 }
+
 
 /**
  * @brief LoopSubdivider::edgePoint Calculates the position of the edge point.
@@ -100,12 +141,14 @@ QVector3D LoopSubdivider::vertexPoint(const Vertex& vertex) const {
  * @return The coordinates of the new edge point.
  */
 QVector3D LoopSubdivider::edgePoint(const HalfEdge& edge) const {
-  // TODO: use edge stencil here. For now this just puts the edge point in the
-  // middle of the edge
-  QVector3D edgePt = edge.origin->coords;
-  edgePt += edge.next->origin->coords;
-  edgePt /= 2.0;
-  return edgePt;
+    QVector3D edgePt = edge.origin->coords * 6.0;
+    edgePt += edge.next->origin->coords * 6.0;
+    if (edge.isBoundaryEdge()) {
+        return edgePt / 12.0;
+    }
+    edgePt += edge.next->next->origin->coords * 2.0;
+    edgePt += edge.twin->next->next->origin->coords * 2.0;
+    return edgePt /= 16.0;
 }
 
 /**
@@ -117,42 +160,42 @@ QVector3D LoopSubdivider::edgePoint(const HalfEdge& edge) const {
  */
 void LoopSubdivider::topologyRefinement(Mesh& controlMesh,
                                         Mesh& newMesh) const {
-  for (int f = 0; f < newMesh.numFaces(); ++f) {
-    newMesh.faces[f].index = f;
-    // Loop subdivision generates only triangles
-    newMesh.faces[f].valence = 3;
-  }
+    for (int f = 0; f < newMesh.numFaces(); ++f) {
+        newMesh.faces[f].index = f;
+        // Loop subdivision generates only triangles
+        newMesh.faces[f].valence = 3;
+    }
 
-  // Split halfedges
-  for (int h = 0; h < controlMesh.numHalfEdges(); ++h) {
-    HalfEdge* edge = &controlMesh.halfEdges[h];
+    // Split halfedges
+    for (int h = 0; h < controlMesh.numHalfEdges(); ++h) {
+        HalfEdge* edge = &controlMesh.halfEdges[h];
 
-    int h1 = 3 * h;
-    int h2 = 3 * h + 1;
-    int h3 = 3 * h + 2;
-    int h4 = 3 * controlMesh.numHalfEdges() + h;
+        int h1 = 3 * h;
+        int h2 = 3 * h + 1;
+        int h3 = 3 * h + 2;
+        int h4 = 3 * controlMesh.numHalfEdges() + h;
 
-    int twinIdx1 = edge->twinIdx() < 0 ? -1 : 3 * edge->twin->next->index + 2;
-    int twinIdx2 = 3 * controlMesh.numHalfEdges() + h;
-    int twinIdx3 = 3 * edge->prev->twinIdx();
-    int twinIdx4 = 3 * h + 1;
+        int twinIdx1 = edge->twinIdx() < 0 ? -1 : 3 * edge->twin->next->index + 2;
+        int twinIdx2 = 3 * controlMesh.numHalfEdges() + h;
+        int twinIdx3 = 3 * edge->prev->twinIdx();
+        int twinIdx4 = 3 * h + 1;
 
-    int vertIdx1 = edge->origin->index;
-    int vertIdx2 = controlMesh.numVerts() + edge->edgeIndex;
-    int vertIdx3 = controlMesh.numVerts() + edge->prev->edgeIndex;
-    int vertIdx4 = vertIdx3;
+        int vertIdx1 = edge->origin->index;
+        int vertIdx2 = controlMesh.numVerts() + edge->edgeIndex;
+        int vertIdx3 = controlMesh.numVerts() + edge->prev->edgeIndex;
+        int vertIdx4 = vertIdx3;
 
-    int edgeIdx1 = 2 * edge->edgeIndex + (h > edge->twinIdx() ? 0 : 1);
-    int edgeIdx2 = 2 * controlMesh.numEdges() + h;
-    int edgeIdx3 = 2 * edge->prev->edgeIndex +
-                   (edge->prevIdx() > edge->prev->twinIdx() ? 1 : 0);
-    int edgeIdx4 = 2 * controlMesh.numEdges() + h;
+        int edgeIdx1 = 2 * edge->edgeIndex + (h > edge->twinIdx() ? 0 : 1);
+        int edgeIdx2 = 2 * controlMesh.numEdges() + h;
+        int edgeIdx3 = 2 * edge->prev->edgeIndex +
+                       (edge->prevIdx() > edge->prev->twinIdx() ? 1 : 0);
+        int edgeIdx4 = 2 * controlMesh.numEdges() + h;
 
-    setHalfEdgeData(newMesh, h1, edgeIdx1, vertIdx1, twinIdx1);
-    setHalfEdgeData(newMesh, h2, edgeIdx2, vertIdx2, twinIdx2);
-    setHalfEdgeData(newMesh, h3, edgeIdx3, vertIdx3, twinIdx3);
-    setHalfEdgeData(newMesh, h4, edgeIdx4, vertIdx4, twinIdx4);
-  }
+        setHalfEdgeData(newMesh, h1, edgeIdx1, vertIdx1, twinIdx1);
+        setHalfEdgeData(newMesh, h2, edgeIdx2, vertIdx2, twinIdx2);
+        setHalfEdgeData(newMesh, h3, edgeIdx3, vertIdx3, twinIdx3);
+        setHalfEdgeData(newMesh, h4, edgeIdx4, vertIdx4, twinIdx4);
+    }
 }
 
 /**
@@ -167,17 +210,17 @@ void LoopSubdivider::topologyRefinement(Mesh& controlMesh,
  */
 void LoopSubdivider::setHalfEdgeData(Mesh& newMesh, int h, int edgeIdx,
                                      int vertIdx, int twinIdx) const {
-  HalfEdge* halfEdge = &newMesh.halfEdges[h];
+    HalfEdge* halfEdge = &newMesh.halfEdges[h];
 
-  halfEdge->edgeIndex = edgeIdx;
-  halfEdge->index = h;
-  halfEdge->origin = &newMesh.vertices[vertIdx];
-  halfEdge->face = &newMesh.faces[halfEdge->faceIdx()];
-  halfEdge->next = &newMesh.halfEdges[halfEdge->nextIdx()];
-  halfEdge->prev = &newMesh.halfEdges[halfEdge->prevIdx()];
-  halfEdge->twin = twinIdx < 0 ? nullptr : &newMesh.halfEdges[twinIdx];
+    halfEdge->edgeIndex = edgeIdx;
+    halfEdge->index = h;
+    halfEdge->origin = &newMesh.vertices[vertIdx];
+    halfEdge->face = &newMesh.faces[halfEdge->faceIdx()];
+    halfEdge->next = &newMesh.halfEdges[halfEdge->nextIdx()];
+    halfEdge->prev = &newMesh.halfEdges[halfEdge->prevIdx()];
+    halfEdge->twin = twinIdx < 0 ? nullptr : &newMesh.halfEdges[twinIdx];
 
-  halfEdge->origin->out = halfEdge;
-  halfEdge->origin->index = vertIdx;
-  halfEdge->face->side = halfEdge;
+    halfEdge->origin->out = halfEdge;
+    halfEdge->origin->index = vertIdx;
+    halfEdge->face->side = halfEdge;
 }
