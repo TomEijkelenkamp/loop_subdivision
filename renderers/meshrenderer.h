@@ -29,7 +29,7 @@ class MeshRenderer : public Renderer {
   int meshIBOSize;
 
   // Uniforms
-  GLint uniModelViewMatrix, uniProjectionMatrix, uniNormalMatrix;
+  GLint uniModelViewMatrix, uniProjectionMatrix, uniNormalMatrix, uniIsoFrequency;
 };
 
 #endif  // MESHRENDERER_H

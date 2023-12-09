@@ -22,6 +22,7 @@ MeshRenderer::~MeshRenderer() {
  */
 void MeshRenderer::initShaders() {
   shaders.insert(ShaderType::PHONG, constructDefaultShader("phong"));
+  shaders.insert(ShaderType::ISO, constructDefaultShader("iso"));
 }
 
 /**
@@ -83,6 +84,7 @@ void MeshRenderer::updateUniforms() {
   uniModelViewMatrix = shader->uniformLocation("modelviewmatrix");
   uniProjectionMatrix = shader->uniformLocation("projectionmatrix");
   uniNormalMatrix = shader->uniformLocation("normalmatrix");
+  uniIsoFrequency = shader->uniformLocation("isofrequency");
 
   gl->glUniformMatrix4fv(uniModelViewMatrix, 1, false,
                          settings->modelViewMatrix.data());
@@ -90,6 +92,7 @@ void MeshRenderer::updateUniforms() {
                          settings->projectionMatrix.data());
   gl->glUniformMatrix3fv(uniNormalMatrix, 1, false,
                          settings->normalMatrix.data());
+  gl->glUniform1i(uniIsoFrequency, settings->isoFrequency);
 }
 
 /**

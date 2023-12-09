@@ -23,6 +23,8 @@ typedef struct Settings {
 
   QMatrix4x4 modelViewMatrix, projectionMatrix;
   QMatrix3x3 normalMatrix;
+
+  int isoFrequency;
 } Settings;
 
 #endif  // SETTINGS_H

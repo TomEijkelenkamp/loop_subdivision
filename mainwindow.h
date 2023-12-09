@@ -24,7 +24,9 @@ class MainWindow : public QMainWindow {
  private slots:
   void on_LoadOBJ_pressed();
   void on_MeshPresetComboBox_currentTextChanged(const QString &meshName);
+  void on_ShaderComboBox_currentTextChanged(const QString &shaderName);
   void on_SubdivSteps_valueChanged(int value);
+  void on_IsoFrequencySlider_valueChanged(int value);
 
  private:
   void importOBJ(const QString &fileName);

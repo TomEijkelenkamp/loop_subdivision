@@ -70,3 +70,24 @@ void MainWindow::on_SubdivSteps_valueChanged(int value) {
   ui->MainDisplay->updateBuffers(meshes[value]);
   delete subdivider;
 }
+
+void MainWindow::on_ShaderComboBox_currentTextChanged(
+    const QString& shaderName) {
+  if (shaderName == "Phong") {
+    ui->MainDisplay->settings.currentShader = PHONG;
+    ui->MainDisplay->settings.wireframeMode = false;
+  } else if (shaderName == "Isolines") {
+    ui->MainDisplay->settings.currentShader = ISO;
+    ui->MainDisplay->settings.wireframeMode = false;
+  } else {
+    ui->MainDisplay->settings.currentShader = PHONG;
+    ui->MainDisplay->settings.wireframeMode = true;
+  }
+  ui->MainDisplay->update();
+}
+
+void MainWindow::on_IsoFrequencySlider_valueChanged(int value) {
+  ui->MainDisplay->settings.isoFrequency = value;
+  ui->MainDisplay->settings.uniformUpdateRequired = true;
+  ui->MainDisplay->update();
+}
