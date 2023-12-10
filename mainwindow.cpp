@@ -12,7 +12,19 @@
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
   ui->setupUi(this);
+
+  // UI enable / disable
   ui->MeshGroupBox->setEnabled(ui->MainDisplay->settings.modelLoaded);
+  ui->IsoGroupBox->setEnabled(ui->MainDisplay->settings.modelLoaded);
+  ui->MainDisplay->settings.isoFrequency = ui->IsoSpinBox->value();
+  ui->IsoSpinBox->setEnabled(ui->IsoCheckBox->isChecked());
+  ui->IsoFrequencyLabel->setEnabled(ui->IsoCheckBox->isChecked());
+
+  // Create a palette for disabling isogroupbox title
+  QPalette palette;
+  palette.setColor(QPalette::Disabled, QPalette::WindowText,
+                   QApplication::palette().color(QPalette::Disabled, QPalette::WindowText));
+  ui->IsoGroupBox->setPalette(palette);
 }
 
 /**
@@ -45,6 +57,7 @@ void MainWindow::importOBJ(const QString& fileName) {
   }
 
   ui->MeshGroupBox->setEnabled(ui->MainDisplay->settings.modelLoaded);
+  ui->IsoGroupBox->setEnabled(ui->MainDisplay->settings.modelLoaded);
   ui->SubdivSteps->setValue(0);
   ui->MainDisplay->update();
 }
@@ -71,22 +84,20 @@ void MainWindow::on_SubdivSteps_valueChanged(int value) {
   delete subdivider;
 }
 
-void MainWindow::on_ShaderComboBox_currentTextChanged(
-    const QString& shaderName) {
-  if (shaderName == "Phong") {
-    ui->MainDisplay->settings.currentShader = PHONG;
-    ui->MainDisplay->settings.wireframeMode = false;
-  } else if (shaderName == "Isolines") {
+void MainWindow::on_IsoCheckBox_toggled(bool checked) {
+  if (checked) {
     ui->MainDisplay->settings.currentShader = ISO;
-    ui->MainDisplay->settings.wireframeMode = false;
+    ui->MainDisplay->settings.uniformUpdateRequired = true;
   } else {
     ui->MainDisplay->settings.currentShader = PHONG;
-    ui->MainDisplay->settings.wireframeMode = true;
   }
+  ui->IsoSpinBox->setEnabled(checked);
+  ui->IsoFrequencyLabel->setEnabled(checked);
+  ui->MainDisplay->settings.wireframeMode = false;
   ui->MainDisplay->update();
 }
 
-void MainWindow::on_IsoFrequencySlider_valueChanged(int value) {
+void MainWindow::on_IsoSpinBox_valueChanged(int value) {
   ui->MainDisplay->settings.isoFrequency = value;
   ui->MainDisplay->settings.uniformUpdateRequired = true;
   ui->MainDisplay->update();

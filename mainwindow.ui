@@ -168,83 +168,61 @@ QGroupBox::title {
         </property>
        </item>
       </widget>
-      <widget class="QGroupBox" name="ShaderGroupBox">
+      <widget class="QGroupBox" name="IsoGroupBox">
        <property name="geometry">
         <rect>
-         <x>10</x>
-         <y>240</y>
-         <width>201</width>
-         <height>421</height>
+         <x>30</x>
+         <y>270</y>
+         <width>161</width>
+         <height>101</height>
         </rect>
        </property>
        <property name="title">
-        <string/>
+        <string>Isophotes</string>
        </property>
-       <widget class="QLabel" name="ShaderLabel">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>20</y>
-          <width>181</width>
-          <height>51</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Shader Settings</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-       <widget class="QComboBox" name="ShaderComboBox">
-        <property name="geometry">
-         <rect>
-          <x>8</x>
-          <y>70</y>
-          <width>181</width>
-          <height>31</height>
-         </rect>
-        </property>
-        <item>
-         <property name="text">
-          <string>Wireframe</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Phong</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Isolines</string>
-         </property>
-        </item>
-       </widget>
-       <widget class="QSlider" name="IsoFrequencySlider">
-        <property name="geometry">
-         <rect>
-          <x>120</x>
-          <y>140</y>
-          <width>71</width>
-          <height>22</height>
-         </rect>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
        <widget class="QLabel" name="IsoFrequencyLabel">
         <property name="geometry">
          <rect>
-          <x>10</x>
-          <y>140</y>
+          <x>20</x>
+          <y>60</y>
           <width>101</width>
           <height>16</height>
          </rect>
         </property>
         <property name="text">
-         <string>Isoline frequency:</string>
+         <string>Frequency:</string>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="IsoCheckBox">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>30</y>
+          <width>76</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Enable</string>
+        </property>
+       </widget>
+       <widget class="QSpinBox" name="IsoSpinBox">
+        <property name="geometry">
+         <rect>
+          <x>100</x>
+          <y>60</y>
+          <width>42</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <number>100</number>
+        </property>
+        <property name="value">
+         <number>25</number>
         </property>
        </widget>
       </widget>

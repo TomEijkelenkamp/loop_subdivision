@@ -9,8 +9,7 @@ uniform int isofrequency;
 out vec4 fColor;
 
 void main() {
-
     vec3 random_vector = normalize(vec3(0.0, 1.0, 0.0));
     float dot_product = dot(vertnormal_fs, vec3(0.0, 1.0, 0.0));
-    fColor = mod(dot_product * 100, isofrequency) > isofrequency / 2 ? vec4(1.0) : vec4(0.1, 0.1, 0.1, 1.0);
+    fColor = mod(dot_product * 50, isofrequency) > isofrequency / 2 ? vec4(1.0) : vec4(0.1, 0.1, 0.1, 1.0);
 }
