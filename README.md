@@ -1,8 +1,8 @@
 # Loop subdivision
 
-The following stencils were used for subdivision
-![stencils](./readme_images/stencils.png)
-![boundary_case](./readme_images/boundary_case.png)
+The following stencils were used for subdivision<br />
+![stencils](./readme_images/stencils.png)<br />
+![boundary_case](./readme_images/boundary_case.png | width=100)<br />
 ![warren_beta](./readme_images/warren_beta.png)
 
 Startup view with disabled unused ui elements
