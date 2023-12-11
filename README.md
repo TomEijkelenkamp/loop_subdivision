@@ -1,9 +1,9 @@
 # Loop subdivision
 
 The following stencils were used for subdivision<br />
-<img src='./readme_images/stencils.png' width='100'><br />
-<img src='./readme_images/boundary_case' width='100'><br />
-<img src='./readme_images/warren_beta' width='25'><br />
+<img src='./readme_images/stencils.png' width='300'><br />
+<img src='./readme_images/boundary_case.png' width='300'><br />
+<img src='./readme_images/warren_beta.png' width='100'><br />
 
 ![stencils](./readme_images/stencils.png)<br />
 ![boundary_case](./readme_images/boundary_case.png)<br />
