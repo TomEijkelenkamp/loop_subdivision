@@ -5,10 +5,6 @@ The following stencils were used for subdivision<br />
 <img src='./readme_images/boundary_case.png' width='600'><br />
 <img src='./readme_images/warren_beta.png' width='200'><br />
 
-![stencils](./readme_images/stencils.png)<br />
-![boundary_case](./readme_images/boundary_case.png)<br />
-![warren_beta](./readme_images/warren_beta.png)
-
 Startup view with disabled unused ui elements
 ![disabled_ui](./readme_images/disabled_ui.png)
 
