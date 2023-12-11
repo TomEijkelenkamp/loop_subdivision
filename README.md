@@ -2,6 +2,7 @@
 
 The following stencils were used for subdivision<br />
 <img src='./readme_images/stencils.png' width='600'><br />
+Boundary cases<br \>
 <img src='./readme_images/boundary_case.png' width='600'><br />
 <img src='./readme_images/warren_beta.png' width='200'><br />
 
