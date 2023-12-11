@@ -1,6 +1,6 @@
-# loop subdivision
+# Loop subdivision
 
-Implementation of loop subdivision using the following stencils
+The following stencils were used for subdivision
 ![stencils](./readme_images/stencils.png)
 ![boundary_case](./readme_images/boundary_case.png)
 ![warren_beta](./readme_images/warren_beta.png)
