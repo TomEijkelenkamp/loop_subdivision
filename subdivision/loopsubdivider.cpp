@@ -59,7 +59,6 @@ void LoopSubdivider::geometryRefinement(Mesh& controlMesh,
     for (int v = 0; v < controlMesh.numVerts(); v++) {
         QVector3D coords = vertexPoint(vertices[v]);
         Vertex vertPoint(coords, nullptr, vertices[v].valence, v);
-//        vertPoint.recalculateValence();
         newVertices[v] = vertPoint;
     }
 
@@ -72,8 +71,7 @@ void LoopSubdivider::geometryRefinement(Mesh& controlMesh,
         if (h > currentEdge.twinIdx()) {
             QVector3D coords = edgePoint(currentEdge);
             int v = controlMesh.numVerts() + currentEdge.edgeIdx();
-            // TODO: check the valence at the boundaries
-            int valence = 6;
+            int valence = currentEdge.isBoundaryEdge() ? 4: 6;
             Vertex edgePointVert = Vertex(coords, nullptr, valence, v);
             newVertices[v] = edgePointVert;
         }
