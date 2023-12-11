@@ -13,10 +13,12 @@ MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
   ui->setupUi(this);
 
+  // Initialize value
+  ui->MainDisplay->settings.isoFrequency = 1 + ui->IsoSpinBox->maximum() - ui->IsoSpinBox->value();
+
   // UI enable / disable
   ui->MeshGroupBox->setEnabled(ui->MainDisplay->settings.modelLoaded);
   ui->IsoGroupBox->setEnabled(ui->MainDisplay->settings.modelLoaded);
-  ui->MainDisplay->settings.isoFrequency = ui->IsoSpinBox->value();
   ui->IsoSpinBox->setEnabled(ui->IsoCheckBox->isChecked());
   ui->IsoFrequencyLabel->setEnabled(ui->IsoCheckBox->isChecked());
 
@@ -98,7 +100,7 @@ void MainWindow::on_IsoCheckBox_toggled(bool checked) {
 }
 
 void MainWindow::on_IsoSpinBox_valueChanged(int value) {
-  ui->MainDisplay->settings.isoFrequency = value;
+  ui->MainDisplay->settings.isoFrequency = 1 + ui->IsoSpinBox->maximum() - value;
   ui->MainDisplay->settings.uniformUpdateRequired = true;
   ui->MainDisplay->update();
 }
