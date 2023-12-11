@@ -3,7 +3,7 @@
 Implementation of loop subdivision using the following stencils
 ![stencils](./readme_images/stencils.png)
 ![boundary_case](./readme_images/boundary_case.png)
-![warren_stencils](./readme_images/warren_stencils.png)
+![warren_beta](./readme_images/warren_beta.png)
 
 Startup view with disabled unused ui elements
 ![disabled_ui](./readme_images/disabled_ui.png)
