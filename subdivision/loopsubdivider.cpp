@@ -92,44 +92,36 @@ QVector3D LoopSubdivider::vertexPoint(const Vertex& vertex) const {
     HalfEdge* current_halfedge;
     HalfEdge* end_halfedge;
 
-    QVector<QVector3D> vertices;
-
     float beta;
 
+    // Initialize starting and ending conditions + beta
     if (vertex.isBoundaryVertex()) {
         current_halfedge = vertex.prevBoundaryHalfEdge();
         end_halfedge = vertex.nextBoundaryHalfEdge();
         beta = vertex.valence > 3 ? 3/(8*vertex.valence) : 3/16;
+        // Weight mid vertex
         coords = vertex.coords * (1-vertex.valence*beta);
     } else {
+        // We start at out->prev to make the loop similar to boundary case
         current_halfedge = vertex.out->prev;
         end_halfedge = vertex.out->prev->twin->prev->twin;
-        beta = 1;
-        coords = vertex.coords * 10.0;
+        // We use beta to do normalized weighting immediately
+        beta = 1 / (10.0 + vertex.valence);
+        // Weight mid vertex
+        coords = vertex.coords * 10.0 * beta;
     }
 
-    int iteration = 0;
-
+    // First two neighbor vertices are weighted
     coords += current_halfedge->origin->coords * beta;
-    vertices.append(current_halfedge->origin->coords);
     coords += current_halfedge->next->next->origin->coords * beta;
-    if (vertices.contains(current_halfedge->next->next->origin->coords)) qDebug() << "Duplicate: " << iteration;
-    vertices.append(current_halfedge->next->next->origin->coords);
 
-
+    // Loop through rest of neighbor vertices and weight them
     while (current_halfedge->next != end_halfedge) {
-        if (current_halfedge->next->next->origin->coords == vertex.coords) qDebug() << "Yes";
         current_halfedge = current_halfedge->next->twin;
         coords += current_halfedge->next->next->origin->coords * beta;
-        iteration++;
-        if (vertices.contains(current_halfedge->next->next->origin->coords)) qDebug() << "Duplicate: " << iteration;
-        vertices.append(current_halfedge->next->next->origin->coords);
     }
 
-    qDebug() << "Number of vertices: " << vertices.size() << " valence: " << vertex.valence;
-
-
-    return beta == 1 ? coords / (10.0 + vertex.valence) : coords;
+    return coords;
 }
 
 
@@ -141,11 +133,12 @@ QVector3D LoopSubdivider::vertexPoint(const Vertex& vertex) const {
  * @return The coordinates of the new edge point.
  */
 QVector3D LoopSubdivider::edgePoint(const HalfEdge& edge) const {
+    if (edge.isBoundaryEdge()) {
+        return edge.origin->coords/2 + edge.next->origin->coords/2;
+    }
+
     QVector3D edgePt = edge.origin->coords * 6.0;
     edgePt += edge.next->origin->coords * 6.0;
-    if (edge.isBoundaryEdge()) {
-        return edgePt / 12.0;
-    }
     edgePt += edge.next->next->origin->coords * 2.0;
     edgePt += edge.twin->next->next->origin->coords * 2.0;
     return edgePt /= 16.0;
