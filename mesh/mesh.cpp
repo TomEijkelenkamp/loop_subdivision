@@ -33,6 +33,9 @@ void Mesh::recalculateNormals() {
   vertexNormals.clear();
   vertexNormals.fill({0, 0, 0}, numVerts());
 
+  vertexNormalsSubdivided.clear();
+  vertexNormalsSubdivided.fill({0, 0, 0}, numVerts());
+
   // normal computation
   for (int h = 0; h < numHalfEdges(); ++h) {
     HalfEdge* edge = &halfEdges[h];
@@ -53,6 +56,30 @@ void Mesh::recalculateNormals() {
 
   for (int v = 0; v < numVerts(); ++v) {
     vertexNormals[v].normalize();
+
+    HalfEdge* halfedge;
+
+    float beta;
+    if (vertices[v].isBoundaryVertex()) {// hello
+        vertexNormalsSubdivided[v] = (vertexNormals[vertices[v].prevBoundaryHalfEdge()->origin->index] + 6 * vertexNormals[v] + vertexNormals[vertices[v].nextBoundaryHalfEdge()->next->origin->index]) / 8;
+    } else {
+        if (vertices[v].valence == 6) {
+            // We use beta to do normalized weighting immediately
+            beta = 1.0 / (10.0 + vertices[v].valence);
+            // Weight mid vertex
+            vertexNormalsSubdivided[v] = vertexNormals[v] * 10.0 * beta;
+        } else {
+            beta = vertices[v].valence == 3.0 ? 3.0/16.0 : 3.0/(8.0*vertices[v].valence);
+            vertexNormalsSubdivided[v] = vertexNormals[v] * (1.0 - vertices[v].valence * beta);
+        }
+
+        halfedge = vertices[v].out->twin;
+        do {
+            vertexNormalsSubdivided[v] += halfedge->origin->coords * beta;
+            halfedge = halfedge->next->twin;
+        } while (halfedge != vertices[v].out->twin);
+    }
+    vertexNormalsSubdivided[v].normalize();
   }
 }
 

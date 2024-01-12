@@ -23,6 +23,7 @@ MeshRenderer::~MeshRenderer() {
 void MeshRenderer::initShaders() {
   shaders.insert(ShaderType::PHONG, constructDefaultShader("phong"));
   shaders.insert(ShaderType::ISO, constructDefaultShader("iso"));
+  shaders.insert(ShaderType::NORMAL, constructDefaultShader("normal"));
 }
 
 /**
@@ -56,7 +57,7 @@ void MeshRenderer::initBuffers() {
  */
 void MeshRenderer::updateBuffers(Mesh& mesh) {
   QVector<QVector3D>& vertexCoords = mesh.getVertexCoords();
-  QVector<QVector3D>& vertexNormals = mesh.getVertexNorms();
+  QVector<QVector3D>& vertexNormals = settings->subdivisionShading ? mesh.getVertexNormsDiv() : mesh.getVertexNorms();
   QVector<unsigned int>& polyIndices = mesh.getPolyIndices();
 
   gl->glBindBuffer(GL_ARRAY_BUFFER, meshCoordsBO);

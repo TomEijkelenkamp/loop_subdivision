@@ -4,6 +4,6 @@
 /**
  * @brief Represents the different shaders that exist in this program.
  */
-enum ShaderType { PHONG, ISO };
+enum ShaderType { PHONG, ISO, NORMAL };
 
 #endif  // SHADER_TYPES_H

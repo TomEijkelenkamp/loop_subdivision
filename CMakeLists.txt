@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(LoopSubdiv VERSION 1.0 LANGUAGES CXX)
+project(subdivision_shading VERSION 1.0 LANGUAGES CXX)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -15,7 +15,7 @@ find_package(QT NAMES Qt5 Qt6 REQUIRED COMPONENTS Core)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Gui)
 find_package(Qt${QT_VERSION_MAJOR} OPTIONAL_COMPONENTS OpenGL OpenGLWidgets Widgets)
 
-qt_add_executable(LoopSubdiv WIN32 MACOSX_BUNDLE
+qt_add_executable(subdivision_shading WIN32 MACOSX_BUNDLE
     initialization/meshinitializer.cpp initialization/meshinitializer.h
     initialization/objfile.cpp initialization/objfile.h
     main.cpp
@@ -35,20 +35,20 @@ qt_add_executable(LoopSubdiv WIN32 MACOSX_BUNDLE
     util/util.h util/util.cpp
     resources.qrc
 )
-target_link_libraries(LoopSubdiv PRIVATE
+target_link_libraries(subdivision_shading PRIVATE
     Qt::Core
     Qt::Gui
 )
 
 if((QT_VERSION_MAJOR GREATER 5))
-    target_link_libraries(LoopSubdiv PRIVATE
+    target_link_libraries(subdivision_shading PRIVATE
         Qt::OpenGL
         Qt::OpenGLWidgets
         Qt::Widgets
     )
 endif()
 
-install(TARGETS LoopSubdiv
+install(TARGETS subdivision_shading
     BUNDLE DESTINATION .
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )

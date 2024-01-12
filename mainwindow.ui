@@ -81,7 +81,7 @@ QGroupBox::title {
          <x>10</x>
          <y>110</y>
          <width>201</width>
-         <height>131</height>
+         <height>151</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout">
@@ -115,6 +115,13 @@ QGroupBox::title {
            </widget>
           </item>
          </layout>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="SubdivisionShadingCheckBox">
+          <property name="text">
+           <string>Subdivision shading</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>
@@ -171,20 +178,20 @@ QGroupBox::title {
       <widget class="QGroupBox" name="IsoGroupBox">
        <property name="geometry">
         <rect>
-         <x>30</x>
+         <x>10</x>
          <y>270</y>
-         <width>161</width>
-         <height>101</height>
+         <width>201</width>
+         <height>151</height>
         </rect>
        </property>
        <property name="title">
-        <string>Isophotes</string>
+        <string>Shading</string>
        </property>
        <widget class="QLabel" name="IsoFrequencyLabel">
         <property name="geometry">
          <rect>
-          <x>20</x>
-          <y>60</y>
+          <x>30</x>
+          <y>100</y>
           <width>101</width>
           <height>16</height>
          </rect>
@@ -193,24 +200,11 @@ QGroupBox::title {
          <string>Frequency:</string>
         </property>
        </widget>
-       <widget class="QCheckBox" name="IsoCheckBox">
-        <property name="geometry">
-         <rect>
-          <x>20</x>
-          <y>30</y>
-          <width>76</width>
-          <height>20</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Enable</string>
-        </property>
-       </widget>
        <widget class="QSpinBox" name="IsoSpinBox">
         <property name="geometry">
          <rect>
           <x>100</x>
-          <y>60</y>
+          <y>100</y>
           <width>42</width>
           <height>22</height>
          </rect>
@@ -224,6 +218,39 @@ QGroupBox::title {
         <property name="value">
          <number>25</number>
         </property>
+       </widget>
+       <widget class="QWidget" name="">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>20</y>
+          <width>91</width>
+          <height>74</height>
+         </rect>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="QRadioButton" name="ShadingRadioPhong">
+           <property name="text">
+            <string>Phong</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="ShadingRadioNormal">
+           <property name="text">
+            <string>Normal</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="ShadingRadioIsophote">
+           <property name="text">
+            <string>Isophote</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </widget>
      </widget>

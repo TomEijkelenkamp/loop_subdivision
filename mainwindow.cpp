@@ -19,8 +19,8 @@ MainWindow::MainWindow(QWidget* parent)
   // UI enable / disable
   ui->MeshGroupBox->setEnabled(ui->MainDisplay->settings.modelLoaded);
   ui->IsoGroupBox->setEnabled(ui->MainDisplay->settings.modelLoaded);
-  ui->IsoSpinBox->setEnabled(ui->IsoCheckBox->isChecked());
-  ui->IsoFrequencyLabel->setEnabled(ui->IsoCheckBox->isChecked());
+  ui->IsoSpinBox->setEnabled(ui->ShadingRadioIsophote->isChecked());
+  ui->IsoFrequencyLabel->setEnabled(ui->ShadingRadioIsophote->isChecked());
 
   // Create a palette for disabling isogroupbox title
   QPalette palette;
@@ -86,15 +86,55 @@ void MainWindow::on_SubdivSteps_valueChanged(int value) {
   delete subdivider;
 }
 
-void MainWindow::on_IsoCheckBox_toggled(bool checked) {
+void MainWindow::on_SubdivisionShadingCheckBox_toggled(bool checked) {
+  ui->MainDisplay->settings.subdivisionShading = checked;
+  ui->MainDisplay->updateBuffers(meshes[ui->SubdivSteps->value()]);
+  ui->MainDisplay->update();
+}
+
+void MainWindow::on_ShadingRadioIsophote_toggled(bool checked) {
   if (checked) {
     ui->MainDisplay->settings.currentShader = ISO;
     ui->MainDisplay->settings.uniformUpdateRequired = true;
   } else {
-    ui->MainDisplay->settings.currentShader = PHONG;
+    if (ui->ShadingRadioPhong->isChecked()) {
+        ui->MainDisplay->settings.currentShader = PHONG;
+    } else {
+        ui->MainDisplay->settings.currentShader = NORMAL;
+    }
   }
   ui->IsoSpinBox->setEnabled(checked);
   ui->IsoFrequencyLabel->setEnabled(checked);
+  ui->MainDisplay->settings.wireframeMode = false;
+  ui->MainDisplay->update();
+}
+
+void MainWindow::on_ShadingRadioPhong_toggled(bool checked) {
+  if (checked) {
+    ui->MainDisplay->settings.currentShader = PHONG;
+    ui->MainDisplay->settings.uniformUpdateRequired = true;
+  } else {
+    if (ui->ShadingRadioNormal->isChecked()) {
+        ui->MainDisplay->settings.currentShader = NORMAL;
+    } else {
+        ui->MainDisplay->settings.currentShader = ISO;
+    }
+  }
+  ui->MainDisplay->settings.wireframeMode = false;
+  ui->MainDisplay->update();
+}
+
+void MainWindow::on_ShadingRadioNormal_toggled(bool checked) {
+  if (checked) {
+    ui->MainDisplay->settings.currentShader = NORMAL;
+    ui->MainDisplay->settings.uniformUpdateRequired = true;
+  } else {
+    if (ui->ShadingRadioPhong->isChecked()) {
+        ui->MainDisplay->settings.currentShader = PHONG;
+    } else {
+        ui->MainDisplay->settings.currentShader = ISO;
+    }
+  }
   ui->MainDisplay->settings.wireframeMode = false;
   ui->MainDisplay->update();
 }

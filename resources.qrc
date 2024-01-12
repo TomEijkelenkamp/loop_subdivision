@@ -4,6 +4,8 @@
         <file>shaders/phong.vert</file>
         <file>shaders/iso.frag</file>
         <file>shaders/iso.vert</file>
+        <file>shaders/normal.frag</file>
+        <file>shaders/normal.vert</file>
     </qresource>
     <qresource prefix="/models">
         <file alias="OpenCube.obj">models/OpenCube.obj</file>

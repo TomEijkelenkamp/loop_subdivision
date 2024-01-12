@@ -25,7 +25,10 @@ class MainWindow : public QMainWindow {
   void on_LoadOBJ_pressed();
   void on_MeshPresetComboBox_currentTextChanged(const QString &meshName);
   void on_SubdivSteps_valueChanged(int value);
-  void on_IsoCheckBox_toggled(bool checked);
+  void on_SubdivisionShadingCheckBox_toggled(bool checked);
+  void on_ShadingRadioPhong_toggled(bool checked);
+  void on_ShadingRadioNormal_toggled(bool checked);
+  void on_ShadingRadioIsophote_toggled(bool checked);
   void on_IsoSpinBox_valueChanged(int value);
 
  private:

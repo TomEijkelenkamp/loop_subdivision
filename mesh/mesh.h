@@ -22,6 +22,7 @@ class Mesh {
 
   inline QVector<QVector3D>& getVertexCoords() { return vertexCoords; }
   inline QVector<QVector3D>& getVertexNorms() { return vertexNormals; }
+  inline QVector<QVector3D>& getVertexNormsDiv() { return vertexNormalsSubdivided; }
   inline QVector<unsigned int>& getPolyIndices() { return polyIndices; }
 
   void extractAttributes();
@@ -35,6 +36,7 @@ class Mesh {
  private:
   QVector<QVector3D> vertexCoords;
   QVector<QVector3D> vertexNormals;
+  QVector<QVector3D> vertexNormalsSubdivided;
   QVector<unsigned int> polyIndices;
 
   QVector<Vertex> vertices;

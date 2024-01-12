@@ -87,37 +87,28 @@ void LoopSubdivider::geometryRefinement(Mesh& controlMesh,
  */
 QVector3D LoopSubdivider::vertexPoint(const Vertex& vertex) const {
     QVector3D coords;
-    HalfEdge* current_halfedge;
-    HalfEdge* end_halfedge;
+    HalfEdge* halfedge;
 
     float beta;
-
-    // Initialize starting and ending conditions + beta
     if (vertex.isBoundaryVertex()) {
-        current_halfedge = vertex.prevBoundaryHalfEdge();
-        end_halfedge = vertex.nextBoundaryHalfEdge();
-        beta = vertex.valence > 3 ? 3/(8*vertex.valence) : 3/16;
-        // Weight mid vertex
-        coords = vertex.coords * (1-vertex.valence*beta);
-    } else {
-        // We start at out->prev to make the loop similar to boundary case
-        current_halfedge = vertex.out->prev;
-        end_halfedge = vertex.out->prev->twin->prev->twin;
+        return (vertex.prevBoundaryHalfEdge()->origin->coords + 6 * vertex.coords + vertex.nextBoundaryHalfEdge()->next->origin->coords) / 8;
+    }
+
+    if (vertex.valence == 6) {
         // We use beta to do normalized weighting immediately
-        beta = 1 / (10.0 + vertex.valence);
+        beta = 1.0 / (10.0 + vertex.valence);
         // Weight mid vertex
         coords = vertex.coords * 10.0 * beta;
+    } else {
+        beta = vertex.valence == 3.0 ? 3.0/16.0 : 3.0/(8.0*vertex.valence);
+        coords = vertex.coords * (1.0 - vertex.valence * beta);
     }
 
-    // First two neighbor vertices are weighted
-    coords += current_halfedge->origin->coords * beta;
-    coords += current_halfedge->next->next->origin->coords * beta;
-
-    // Loop through rest of neighbor vertices and weight them
-    while (current_halfedge->next != end_halfedge) {
-        current_halfedge = current_halfedge->next->twin;
-        coords += current_halfedge->next->next->origin->coords * beta;
-    }
+    halfedge = vertex.out->twin;
+    do {
+        coords += halfedge->origin->coords * beta;
+        halfedge = halfedge->next->twin;
+    } while (halfedge != vertex.out->twin);
 
     return coords;
 }

@@ -24,6 +24,7 @@ typedef struct Settings {
   QMatrix4x4 modelViewMatrix, projectionMatrix;
   QMatrix3x3 normalMatrix;
 
+  bool subdivisionShading = false;
   int isoFrequency;
 } Settings;
 
