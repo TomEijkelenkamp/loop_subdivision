@@ -22,16 +22,21 @@ class Mesh {
 
   inline QVector<QVector3D>& getVertexCoords() { return vertexCoords; }
   inline QVector<QVector3D>& getVertexNorms() { return vertexNormals; }
-  inline QVector<QVector3D>& getVertexNormsDiv() { return vertexNormalsSubdivided; }
+  inline QVector<QVector3D>& getVertexSubdivNormals() { return vertexNormalsSubdivided; }
   inline QVector<unsigned int>& getPolyIndices() { return polyIndices; }
 
+  inline void setSubdividedNormals(QVector<QVector3D>& newNormals) { vertexNormalsSubdivided = newNormals; }
+
   void extractAttributes();
-  void recalculateNormals();
+  void computeBaseNormals();
 
   int numVerts();
   int numHalfEdges();
   int numFaces();
   int numEdges();
+
+  bool isBaseMesh = false;
+  void setBaseMesh(bool value);
 
  private:
   QVector<QVector3D> vertexCoords;

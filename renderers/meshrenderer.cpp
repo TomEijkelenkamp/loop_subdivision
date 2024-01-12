@@ -57,7 +57,7 @@ void MeshRenderer::initBuffers() {
  */
 void MeshRenderer::updateBuffers(Mesh& mesh) {
   QVector<QVector3D>& vertexCoords = mesh.getVertexCoords();
-  QVector<QVector3D>& vertexNormals = settings->subdivisionShading ? mesh.getVertexNormsDiv() : mesh.getVertexNorms();
+  QVector<QVector3D>& vertexNormals = settings->subdivisionShading ? mesh.getVertexSubdivNormals() : mesh.getVertexNorms();
   QVector<unsigned int>& polyIndices = mesh.getPolyIndices();
 
   gl->glBindBuffer(GL_ARRAY_BUFFER, meshCoordsBO);

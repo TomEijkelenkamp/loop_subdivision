@@ -14,73 +14,61 @@ Mesh::Mesh() {}
  * @brief Mesh::~Mesh Deconstructor. Clears all the data of the half-edge data.
  */
 Mesh::~Mesh() {
-  vertices.clear();
-  vertices.squeeze();
-  halfEdges.clear();
-  halfEdges.squeeze();
-  faces.clear();
-  faces.squeeze();
+    vertices.clear();
+    vertices.squeeze();
+    halfEdges.clear();
+    halfEdges.squeeze();
+    faces.clear();
+    faces.squeeze();
 }
 
 /**
- * @brief Mesh::recalculateNormals Recalculates the face and vertex normals.
+ * @brief Mesh::setBaseMesh
+ * @param value
  */
-void Mesh::recalculateNormals() {
-  for (int f = 0; f < numFaces(); f++) {
-    faces[f].recalculateNormal();
-  }
+void Mesh::setBaseMesh(bool value) {
+    if (value) {
+        isBaseMesh = value;
 
-  vertexNormals.clear();
-  vertexNormals.fill({0, 0, 0}, numVerts());
-
-  vertexNormalsSubdivided.clear();
-  vertexNormalsSubdivided.fill({0, 0, 0}, numVerts());
-
-  // normal computation
-  for (int h = 0; h < numHalfEdges(); ++h) {
-    HalfEdge* edge = &halfEdges[h];
-    QVector3D pPrev = edge->prev->origin->coords;
-    QVector3D pCur = edge->origin->coords;
-    QVector3D pNext = edge->next->origin->coords;
-
-    QVector3D edgeA = (pPrev - pCur);
-    QVector3D edgeB = (pNext - pCur);
-
-    double edgeLengths = edgeA.length() * edgeB.length();
-    double edgeDot = QVector3D::dotProduct(edgeA, edgeB) / edgeLengths;
-    double angle = sqrt(1 - edgeDot * edgeDot);
-
-    vertexNormals[edge->origin->index] +=
-        (angle * edge->face->normal) / edgeLengths;
-  }
-
-  for (int v = 0; v < numVerts(); ++v) {
-    vertexNormals[v].normalize();
-
-    HalfEdge* halfedge;
-
-    float beta;
-    if (vertices[v].isBoundaryVertex()) {// hello
-        vertexNormalsSubdivided[v] = (vertexNormals[vertices[v].prevBoundaryHalfEdge()->origin->index] + 6 * vertexNormals[v] + vertexNormals[vertices[v].nextBoundaryHalfEdge()->next->origin->index]) / 8;
-    } else {
-        if (vertices[v].valence == 6) {
-            // We use beta to do normalized weighting immediately
-            beta = 1.0 / (10.0 + vertices[v].valence);
-            // Weight mid vertex
-            vertexNormalsSubdivided[v] = vertexNormals[v] * 10.0 * beta;
-        } else {
-            beta = vertices[v].valence == 3.0 ? 3.0/16.0 : 3.0/(8.0*vertices[v].valence);
-            vertexNormalsSubdivided[v] = vertexNormals[v] * (1.0 - vertices[v].valence * beta);
-        }
-
-        halfedge = vertices[v].out->twin;
-        do {
-            vertexNormalsSubdivided[v] += halfedge->origin->coords * beta;
-            halfedge = halfedge->next->twin;
-        } while (halfedge != vertices[v].out->twin);
+        // Set the subdivision normals to base normals
+        computeBaseNormals();
+        setSubdividedNormals(getVertexNorms());
     }
-    vertexNormalsSubdivided[v].normalize();
-  }
+}
+
+/**
+ * @brief Mesh::computeBaseNormals Computes the face and vertex normals with an
+ * angle-weighted average of incident faces normals.
+ */
+void Mesh::computeBaseNormals() {
+    for (int f = 0; f < numFaces(); f++) {
+        faces[f].recalculateNormal();
+    }
+
+    vertexNormals.clear();
+    vertexNormals.fill({0, 0, 0}, numVerts());
+
+    // normal computation
+    for (int h = 0; h < numHalfEdges(); ++h) {
+        HalfEdge* edge = &halfEdges[h];
+        QVector3D pPrev = edge->prev->origin->coords;
+        QVector3D pCur = edge->origin->coords;
+        QVector3D pNext = edge->next->origin->coords;
+
+        QVector3D edgeA = (pPrev - pCur);
+        QVector3D edgeB = (pNext - pCur);
+
+        double edgeLengths = edgeA.length() * edgeB.length();
+        double edgeDot = QVector3D::dotProduct(edgeA, edgeB) / edgeLengths;
+        double angle = sqrt(1 - edgeDot * edgeDot);
+
+        vertexNormals[edge->origin->index] +=
+            (angle * edge->face->normal) / edgeLengths;
+    }
+
+    for (int v = 0; v < numVerts(); ++v) {
+        vertexNormals[v].normalize();
+    }
 }
 
 /**
@@ -88,23 +76,23 @@ void Mesh::recalculateNormals() {
  * indices into easy-to-access buffers.
  */
 void Mesh::extractAttributes() {
-  recalculateNormals();
+    computeBaseNormals();
 
-  vertexCoords.clear();
-  vertexCoords.reserve(vertices.size());
-  for (int v = 0; v < vertices.size(); v++) {
-    vertexCoords.append(vertices[v].coords);
-  }
-
-  polyIndices.clear();
-  polyIndices.reserve(halfEdges.size() + faces.size());
-  for (int f = 0; f < faces.size(); f++) {
-    HalfEdge* currentEdge = faces[f].side;
-    for (int m = 0; m < faces[f].valence; m++) {
-      polyIndices.append(currentEdge->origin->index);
-      currentEdge = currentEdge->next;
+    vertexCoords.clear();
+    vertexCoords.reserve(vertices.size());
+    for (int v = 0; v < vertices.size(); v++) {
+        vertexCoords.append(vertices[v].coords);
     }
-  }
+
+    polyIndices.clear();
+    polyIndices.reserve(halfEdges.size() + faces.size());
+    for (int f = 0; f < faces.size(); f++) {
+        HalfEdge* currentEdge = faces[f].side;
+        for (int m = 0; m < faces[f].valence; m++) {
+            polyIndices.append(currentEdge->origin->index);
+            currentEdge = currentEdge->next;
+        }
+    }
 }
 
 /**

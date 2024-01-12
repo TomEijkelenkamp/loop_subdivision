@@ -52,6 +52,7 @@ void MainWindow::importOBJ(const QString& fileName) {
   if (newModel.loadedSuccessfully()) {
     MeshInitializer meshInitializer;
     meshes.append(meshInitializer.constructHalfEdgeMesh(newModel));
+    meshes[0].setBaseMesh(true);
     ui->MainDisplay->updateBuffers(meshes[0]);
     ui->MainDisplay->settings.modelLoaded = true;
   } else {

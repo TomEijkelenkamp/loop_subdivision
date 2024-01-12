@@ -21,6 +21,7 @@ Mesh LoopSubdivider::subdivide(Mesh& controlMesh) const {
     reserveSizes(controlMesh, newMesh);
     geometryRefinement(controlMesh, newMesh);
     topologyRefinement(controlMesh, newMesh);
+    normalRefinement(controlMesh, newMesh);
     return newMesh;
 }
 
@@ -39,6 +40,7 @@ void LoopSubdivider::reserveSizes(Mesh& controlMesh, Mesh& newMesh) const {
     newMesh.getVertices().resize(newNumVerts);
     newMesh.getHalfEdges().resize(newNumHalfEdges);
     newMesh.getFaces().resize(newNumFaces);
+    newMesh.getVertexSubdivNormals().resize(newNumVerts);
     newMesh.edgeCount = newNumEdges;
 }
 
@@ -71,7 +73,7 @@ void LoopSubdivider::geometryRefinement(Mesh& controlMesh,
         if (h > currentEdge.twinIdx()) {
             QVector3D coords = edgePoint(currentEdge);
             int v = controlMesh.numVerts() + currentEdge.edgeIdx();
-            int valence = currentEdge.isBoundaryEdge() ? 4: 6;
+            int valence = currentEdge.isBoundaryEdge() ? 4 : 6;
             Vertex edgePointVert = Vertex(coords, nullptr, valence, v);
             newVertices[v] = edgePointVert;
         }
@@ -113,7 +115,6 @@ QVector3D LoopSubdivider::vertexPoint(const Vertex& vertex) const {
     return coords;
 }
 
-
 /**
  * @brief LoopSubdivider::edgePoint Calculates the position of the edge point.
  * @param edge One of the half-edges that lives on the edge to calculate
@@ -123,7 +124,7 @@ QVector3D LoopSubdivider::vertexPoint(const Vertex& vertex) const {
  */
 QVector3D LoopSubdivider::edgePoint(const HalfEdge& edge) const {
     if (edge.isBoundaryEdge()) {
-        return edge.origin->coords/2 + edge.next->origin->coords/2;
+        return edge.origin->coords / 2.0 + edge.next->origin->coords / 2.0;
     }
 
     QVector3D edgePt = edge.origin->coords * 6.0;
@@ -205,4 +206,81 @@ void LoopSubdivider::setHalfEdgeData(Mesh& newMesh, int h, int edgeIdx,
     halfEdge->origin->out = halfEdge;
     halfEdge->origin->index = vertIdx;
     halfEdge->face->side = halfEdge;
+}
+
+/**
+ * @brief LoopSubdivider::normalRefinement Refines the normals based on
+ * the Loop subdivision stencils and Subdivision Shading described in the
+ * 2008 paper by Marc Alexa and Tamy Boubekeur.
+ */
+void LoopSubdivider::normalRefinement(Mesh& controlMesh,
+                                      Mesh& newMesh) const {
+    // Compute normals with angle-weighted average of incident faces normals.
+    // newMesh.computeBaseNormals();
+
+    // Compute subdivision shading normals with Loop subdivision
+    QVector<Vertex>& vertices = controlMesh.getVertices();
+    QVector<HalfEdge>& halfEdges = controlMesh.getHalfEdges();
+    QVector<QVector3D>& normals = controlMesh.getVertexSubdivNormals();
+    QVector<QVector3D>& newNormals = newMesh.getVertexSubdivNormals();
+
+    // Vertex normals
+    for (int v = 0; v < controlMesh.numVerts(); v++) {
+        newNormals[v] = vertexNormal(vertices[v], normals);
+    }
+
+    // Edge normals, i.e. the normals of newly created vertices
+    for (int h = 0; h < controlMesh.numHalfEdges(); h++) {
+        HalfEdge currentEdge = halfEdges[h];
+        if (h > currentEdge.twinIdx()) {
+            int v = controlMesh.numVerts() + currentEdge.edgeIdx();
+            newNormals[v] = edgeNormal(currentEdge, normals);
+        }
+    }
+
+    // Write new normals to mesh
+    newMesh.setSubdividedNormals(newNormals);
+}
+
+QVector3D LoopSubdivider::vertexNormal(const Vertex& vertex, const QVector<QVector3D> normals) const {
+    if (vertex.isBoundaryVertex()) {
+        int v0 = vertex.index;
+        int v1 = vertex.prevBoundaryHalfEdge()->origin->index;
+        int v2 = vertex.nextBoundaryHalfEdge()->next->origin->index;
+
+        return (normals[v1] + 6.0 * normals[v0] + normals[v2]).normalized();
+    }
+
+    float valence = vertex.valence;
+    float beta = (valence == 3.0 ? 3.0 / 16.0 : 3.0 / (8.0 * valence));
+
+    int v0 = vertex.index;
+
+    QVector3D normal = normals[v0] * (1.0 - valence * beta);
+    HalfEdge* halfedge = vertex.out->twin;
+
+    do {
+        int vNext = halfedge->origin->index;
+        normal += normals[vNext] * beta;
+        halfedge = halfedge->next->twin;
+    } while (halfedge != vertex.out->twin);
+
+    return normal.normalized();
+}
+
+QVector3D LoopSubdivider::edgeNormal(const HalfEdge& edge, const QVector<QVector3D> normals) const {
+    if (edge.isBoundaryEdge()) {
+        int v1 = edge.origin->index;
+        int v2 = edge.next->origin->index;
+
+        QVector3D newNormal = normals[v1] / 2.0 + normals[v2] / 2.0;
+        return newNormal.normalized();
+    }
+
+    int v1 = edge.origin->index;
+    int v2 = edge.next->origin->index;
+    int v3 = edge.next->next->origin->index;
+    int v4 = edge.twin->next->next->origin->index;
+
+    return (6.0 * normals[v1] + 6.0 * normals[v2] + 2.0 * normals[v3] + 2.0 * normals[v4]).normalized();
 }
