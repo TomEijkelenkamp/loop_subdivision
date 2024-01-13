@@ -21,12 +21,14 @@ MainWindow::MainWindow(QWidget* parent)
   ui->IsoGroupBox->setEnabled(ui->MainDisplay->settings.modelLoaded);
   ui->IsoSpinBox->setEnabled(ui->ShadingRadioIsophote->isChecked());
   ui->IsoFrequencyLabel->setEnabled(ui->ShadingRadioIsophote->isChecked());
+  ui->SubdivisionShadingBox->setEnabled(ui->SubdivisionShadingCheckBox->isChecked());
 
   // Create a palette for disabling isogroupbox title
   QPalette palette;
   palette.setColor(QPalette::Disabled, QPalette::WindowText,
                    QApplication::palette().color(QPalette::Disabled, QPalette::WindowText));
   ui->IsoGroupBox->setPalette(palette);
+  ui->SubdivisionShadingBox->setPalette(palette);
 }
 
 /**
@@ -89,6 +91,7 @@ void MainWindow::on_SubdivSteps_valueChanged(int value) {
 
 void MainWindow::on_SubdivisionShadingCheckBox_toggled(bool checked) {
   ui->MainDisplay->settings.subdivisionShading = checked;
+  ui->SubdivisionShadingBox->setEnabled(checked);
   ui->MainDisplay->updateBuffers(meshes[ui->SubdivSteps->value()]);
   ui->MainDisplay->update();
 }

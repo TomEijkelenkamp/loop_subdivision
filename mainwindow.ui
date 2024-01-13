@@ -219,7 +219,7 @@ QGroupBox::title {
          <number>25</number>
         </property>
        </widget>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
           <x>20</x>
@@ -233,6 +233,9 @@ QGroupBox::title {
           <widget class="QRadioButton" name="ShadingRadioPhong">
            <property name="text">
             <string>Phong</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -252,6 +255,55 @@ QGroupBox::title {
          </item>
         </layout>
        </widget>
+      </widget>
+      <widget class="QGroupBox" name="SubdivisionShadingBox">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>430</y>
+         <width>201</width>
+         <height>99</height>
+        </rect>
+       </property>
+       <property name="title">
+        <string>Subdivision Shading Settings</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <item>
+         <widget class="QLabel" name="label">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="text">
+           <string>Averaging of normals:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <item>
+           <widget class="QRadioButton" name="radioButton">
+            <property name="text">
+             <string>Linear (weighted)</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="ShadingRadioNormal_2">
+            <property name="text">
+             <string>Spherical</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
       </widget>
      </widget>
     </item>
