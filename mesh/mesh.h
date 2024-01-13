@@ -23,9 +23,12 @@ class Mesh {
   inline QVector<QVector3D>& getVertexCoords() { return vertexCoords; }
   inline QVector<QVector3D>& getVertexNorms() { return vertexNormals; }
   inline QVector<QVector3D>& getVertexSubdivNormals() { return vertexNormalsSubdivided; }
+  inline QVector<float>& getBlendWeights() { return vertexBlendWeights; }
   inline QVector<unsigned int>& getPolyIndices() { return polyIndices; }
 
   inline void setSubdividedNormals(QVector<QVector3D>& newNormals) { vertexNormalsSubdivided = newNormals; }
+  inline void setBlendWeights(QVector<float>& blendWeights) { vertexBlendWeights = blendWeights; }
+  QVector<QVector3D>& getBlendedVertexNormals();
 
   void extractAttributes();
   void computeBaseNormals();
@@ -37,11 +40,14 @@ class Mesh {
 
   bool isBaseMesh = false;
   void setBaseMesh(bool value);
+  void computeBaseBlendWeights();
 
  private:
   QVector<QVector3D> vertexCoords;
   QVector<QVector3D> vertexNormals;
   QVector<QVector3D> vertexNormalsSubdivided;
+  QVector<QVector3D> blendedNormals;
+  QVector<float> vertexBlendWeights;
   QVector<unsigned int> polyIndices;
 
   QVector<Vertex> vertices;

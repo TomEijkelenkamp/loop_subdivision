@@ -33,6 +33,9 @@ void Mesh::setBaseMesh(bool value) {
         // Set the subdivision normals to base normals
         computeBaseNormals();
         setSubdividedNormals(getVertexNorms());
+
+        // Set the blend weights
+        computeBaseBlendWeights();
     }
 }
 
@@ -69,6 +72,38 @@ void Mesh::computeBaseNormals() {
     for (int v = 0; v < numVerts(); ++v) {
         vertexNormals[v].normalize();
     }
+}
+
+void Mesh::computeBaseBlendWeights() {
+    QVector<Vertex> vertices = getVertices();
+
+    vertexBlendWeights.clear();
+    vertexBlendWeights.fill(0.0, numVerts());
+
+    for (int v = 0; v < numVerts(); ++v) {
+        qDebug() << "Valence:";
+        qDebug() << vertices[v].valence;
+        // vertices[v].recalculateValence();
+        // qDebug() << vertices[v].valence;
+
+        if (vertices[v].valence != 6) {
+            vertexBlendWeights[v] = 1.0;
+        }
+    }
+
+    qDebug() << vertexBlendWeights;
+}
+
+QVector<QVector3D>& Mesh::getBlendedVertexNormals() {
+    blendedNormals.clear();
+    blendedNormals.fill({0.0, 0.0, 0.0}, numVerts());
+
+    for (int v = 0; v < numVerts(); ++v) {
+        blendedNormals[v] = vertexBlendWeights[v] * vertexNormalsSubdivided[v]
+                            + (1.0 - vertexBlendWeights[v]) * vertexNormals[v];
+    }
+
+    return blendedNormals;
 }
 
 /**

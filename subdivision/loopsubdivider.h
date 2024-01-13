@@ -18,6 +18,7 @@ class LoopSubdivider : public Subdivider {
   void geometryRefinement(Mesh& controlMesh, Mesh& newMesh) const;
   void topologyRefinement(Mesh& controlMesh, Mesh& newMesh) const;
   void normalRefinement(Mesh& controlMesh, Mesh& newMesh) const;
+  void blendWeightsRefinement(Mesh& controlMesh, Mesh& newMesh) const;
 
   void setHalfEdgeData(Mesh& newMesh, int h, int edgeIdx, int vertIdx,
                        int twinIdx) const;
@@ -27,6 +28,8 @@ class LoopSubdivider : public Subdivider {
 
   QVector3D vertexNormal(const Vertex& vertex, const QVector<QVector3D> normals) const;
   QVector3D edgeNormal(const HalfEdge& edge, const QVector<QVector3D> normals) const;
+
+  float interpolatedBlendWeight(const HalfEdge& edge, const QVector<float> blendWeights) const;
 };
 
 #endif  // LOOP_SUBDIVIDER_H

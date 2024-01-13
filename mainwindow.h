@@ -29,6 +29,7 @@ class MainWindow : public QMainWindow {
   void on_ShadingRadioPhong_toggled(bool checked);
   void on_ShadingRadioNormal_toggled(bool checked);
   void on_ShadingRadioIsophote_toggled(bool checked);
+  void on_blendNormalsBox_toggled(bool checked);
   void on_IsoSpinBox_valueChanged(int value);
 
  private:

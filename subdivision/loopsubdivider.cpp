@@ -22,6 +22,7 @@ Mesh LoopSubdivider::subdivide(Mesh& controlMesh) const {
     geometryRefinement(controlMesh, newMesh);
     topologyRefinement(controlMesh, newMesh);
     normalRefinement(controlMesh, newMesh);
+    blendWeightsRefinement(controlMesh, newMesh);
     return newMesh;
 }
 
@@ -283,4 +284,51 @@ QVector3D LoopSubdivider::edgeNormal(const HalfEdge& edge, const QVector<QVector
     int v4 = edge.twin->next->next->origin->index;
 
     return (6.0 * normals[v1] + 6.0 * normals[v2] + 2.0 * normals[v3] + 2.0 * normals[v4]).normalized();
+}
+
+void LoopSubdivider::blendWeightsRefinement(Mesh& controlMesh,
+                                            Mesh& newMesh) const {
+    QVector<HalfEdge>& halfEdges = controlMesh.getHalfEdges();
+    QVector<float> blendWeights = controlMesh.getBlendWeights();
+    QVector<float> newBlendWeights;
+    newBlendWeights.fill(0.0, newMesh.numVerts());
+
+    // Copy old blend weights to new array
+    for (int v = 0; v < controlMesh.numVerts(); v++) {
+        newBlendWeights[v] = blendWeights[v];
+    }
+
+    // Loop over the vertices that have been added and interpolate
+    for (int h = 0; h < controlMesh.numHalfEdges(); h++) {
+        HalfEdge currentEdge = halfEdges[h];
+        if (h > currentEdge.twinIdx()) {
+            int v = controlMesh.numVerts() + currentEdge.edgeIdx();
+            newBlendWeights[v] = interpolatedBlendWeight(currentEdge, blendWeights);
+        }
+    }
+
+    newMesh.setBlendWeights(newBlendWeights);
+}
+
+/**
+ * @brief interpolatedBlendWeight Compute blend weight by interpolating over neighbors'
+          blend weights using Loop's edge stencil.
+ * @param edge
+ * @param blendWeights
+ * @return
+ */
+float LoopSubdivider::interpolatedBlendWeight(const HalfEdge& edge, const QVector<float> blendWeights) const {
+    if (edge.isBoundaryEdge()) {
+        int v1 = edge.origin->index;
+        int v2 = edge.next->origin->index;
+
+        return blendWeights[v1] / 2.0 + blendWeights[v2] / 2.0;
+    }
+
+    int v1 = edge.origin->index;
+    int v2 = edge.next->origin->index;
+    int v3 = edge.next->next->origin->index;
+    int v4 = edge.twin->next->next->origin->index;
+
+    return (6.0 * blendWeights[v1] + 6.0 * blendWeights[v2] + 2.0 * blendWeights[v3] + 2.0 * blendWeights[v4]) / 16.0;
 }

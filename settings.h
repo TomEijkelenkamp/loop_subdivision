@@ -25,6 +25,7 @@ typedef struct Settings {
   QMatrix3x3 normalMatrix;
 
   bool subdivisionShading = false;
+  bool blendNormals = false;
   int isoFrequency;
 } Settings;
 

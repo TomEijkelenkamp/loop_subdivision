@@ -265,7 +265,7 @@ QGroupBox::title {
          <x>10</x>
          <y>430</y>
          <width>201</width>
-         <height>99</height>
+         <height>151</height>
         </rect>
        </property>
        <property name="title">
@@ -273,17 +273,17 @@ QGroupBox::title {
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_4">
         <item>
-         <widget class="QLabel" name="label">
-          <property name="enabled">
-           <bool>true</bool>
-          </property>
-          <property name="text">
-           <string>Averaging of normals:</string>
-          </property>
-         </widget>
-        </item>
-        <item>
          <layout class="QVBoxLayout" name="verticalLayout_3">
+          <item>
+           <widget class="QLabel" name="label">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="text">
+             <string>Averaging of normals:</string>
+            </property>
+           </widget>
+          </item>
           <item>
            <widget class="QRadioButton" name="radioButton">
             <property name="text">
@@ -301,7 +301,24 @@ QGroupBox::title {
             </property>
            </widget>
           </item>
+          <item>
+           <widget class="Line" name="line">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
          </layout>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="blendNormalsBox">
+          <property name="text">
+           <string>Blend normals</string>
+          </property>
+          <property name="checked">
+           <bool>false</bool>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>
