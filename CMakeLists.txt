@@ -34,7 +34,7 @@ qt_add_executable(subdivision_shading WIN32 MACOSX_BUNDLE
     subdivision/subdivider.h
     util/util.h util/util.cpp
     resources.qrc
-    subdivisionshadertype.h
+    subdivisionshadertypes.h
 
 )
 target_link_libraries(subdivision_shading PRIVATE

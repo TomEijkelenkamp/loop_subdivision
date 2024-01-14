@@ -4,6 +4,8 @@
 #include "initialization/objfile.h"
 #include "subdivision/loopsubdivider.h"
 #include "ui_mainwindow.h"
+#include <QRadioButton>
+#include <QButtonGroup>
 
 /**
  * @brief MainWindow::MainWindow Creates a new Main Window UI.
@@ -29,6 +31,15 @@ MainWindow::MainWindow(QWidget* parent)
                      QApplication::palette().color(QPalette::Disabled, QPalette::WindowText));
     ui->IsoGroupBox->setPalette(palette);
     ui->SubdivisionShadingBox->setPalette(palette);
+
+    // Assuming radioButton1, radioButton2, and radioButton3 are defined in your UI file
+    QButtonGroup *buttonGroup = new QButtonGroup(this);
+    buttonGroup->addButton(ui->LinearAveragingRadioButton);
+    buttonGroup->addButton(ui->SphericalAveragingRadioButton);
+
+    // Connect the button group signal to a slot
+    connect(buttonGroup, SIGNAL(buttonClicked(QAbstractButton*)), this, SLOT(on_AveragingBox_clicked(QAbstractButton*)));
+
 }
 
 /**
@@ -148,6 +159,21 @@ void MainWindow::on_ShadingRadioNormal_toggled(bool checked) {
         }
     }
     ui->MainDisplay->settings.wireframeMode = false;
+    ui->MainDisplay->update();
+}
+
+void MainWindow::on_AveragingBox_clicked(QAbstractButton *button)
+{
+    // Check which radio button was clicked
+    if (button == ui->LinearAveragingRadioButton)
+    {
+        ui->MainDisplay->settings.currentSubdivShadingAvgMethod = LINEAR;
+    }
+    else if (button == ui->SphericalAveragingRadioButton)
+    {
+        ui->MainDisplay->settings.currentSubdivShadingAvgMethod = SPHERICAL;
+    }
+    ui->MainDisplay->updateBuffers(meshes[ui->SubdivSteps->value()]);
     ui->MainDisplay->update();
 }
 
