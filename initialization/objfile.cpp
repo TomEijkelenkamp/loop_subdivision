@@ -17,6 +17,11 @@ OBJFile::OBJFile(const QString& fileName) {
   qDebug() << ":: Loading" << fileName;
   QFile newModel(fileName);
 
+  if (!newModel.exists()) {
+      qDebug() << "File does not exist!";
+      return;
+  }
+
   if (newModel.open(QIODevice::ReadOnly)) {
     QTextStream fileContents(&newModel);
 

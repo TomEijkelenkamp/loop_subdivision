@@ -35,6 +35,8 @@ qt_add_executable(subdivision_shading WIN32 MACOSX_BUNDLE
     util/util.h util/util.cpp
     resources.qrc
     subdivisionshadertypes.h
+    subdivision/shading/loopsubdivisionshader.h subdivision/shading/loopsubdivisionshader.cpp
+
 
 )
 target_link_libraries(subdivision_shading PRIVATE

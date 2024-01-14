@@ -141,6 +141,11 @@ QGroupBox::title {
        </item>
        <item>
         <property name="text">
+         <string>Object</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
          <string>OpenCube</string>
         </property>
        </item>
@@ -167,6 +172,16 @@ QGroupBox::title {
        <item>
         <property name="text">
          <string>Octahedron</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Octahedron 1 subdivision</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Octahedron 2 subdivisions</string>
         </property>
        </item>
        <item>

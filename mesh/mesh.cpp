@@ -84,17 +84,10 @@ void Mesh::computeBaseBlendWeights() {
     vertexBlendWeights.fill(0.0, numVerts());
 
     for (int v = 0; v < numVerts(); ++v) {
-        qDebug() << "Valence:";
-        qDebug() << vertices[v].valence;
-        // vertices[v].recalculateValence();
-        // qDebug() << vertices[v].valence;
-
         if (vertices[v].valence != 6) {
             vertexBlendWeights[v] = 1.0;
         }
     }
-
-    qDebug() << vertexBlendWeights;
 }
 
 QVector<QVector3D>& Mesh::getBlendedVertexNormals(SubdivisionShaderType subdivType) {

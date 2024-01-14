@@ -59,8 +59,6 @@ void MeshRenderer::updateBuffers(Mesh& mesh) {
     QVector<QVector3D>& vertexCoords = mesh.getVertexCoords();
     QVector<QVector3D>& vertexNormals = settings->blendNormals ? mesh.getBlendedVertexNormals(settings->currentSubdivShadingAvgMethod) :
                                             (settings->subdivisionShading ? mesh.getVertexSubdivNormals(settings->currentSubdivShadingAvgMethod) : mesh.getVertexNorms());
-    qDebug() << settings->blendNormals;
-    qDebug() << mesh.getBlendWeights();
     QVector<unsigned int>& polyIndices = mesh.getPolyIndices();
 
     gl->glBindBuffer(GL_ARRAY_BUFFER, meshCoordsBO);
