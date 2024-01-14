@@ -2,7 +2,9 @@
 #define MESH_H
 
 #include <QVector>
-
+#include <QMap>
+#include <QVector3D>
+#include "subdivisionshadertypes.h"
 #include "face.h"
 #include "halfedge.h"
 #include "vertex.h"
@@ -22,13 +24,13 @@ class Mesh {
 
   inline QVector<QVector3D>& getVertexCoords() { return vertexCoords; }
   inline QVector<QVector3D>& getVertexNorms() { return vertexNormals; }
-  inline QVector<QVector3D>& getVertexSubdivNormals() { return vertexNormalsSubdivided; }
+  inline QVector<QVector3D>& getVertexSubdivNormals(SubdivisionShaderType type) { return vertexNormalsSubdivided[type]; }
   inline QVector<float>& getBlendWeights() { return vertexBlendWeights; }
   inline QVector<unsigned int>& getPolyIndices() { return polyIndices; }
 
-  inline void setSubdividedNormals(QVector<QVector3D>& newNormals) { vertexNormalsSubdivided = newNormals; }
+  inline void setSubdividedNormals(SubdivisionShaderType type, QVector<QVector3D>& newNormals) { vertexNormalsSubdivided[type] = newNormals; }
   inline void setBlendWeights(QVector<float>& blendWeights) { vertexBlendWeights = blendWeights; }
-  QVector<QVector3D>& getBlendedVertexNormals();
+  QVector<QVector3D>& getBlendedVertexNormals(SubdivisionShaderType type);
 
   void extractAttributes();
   void computeBaseNormals();
@@ -45,7 +47,7 @@ class Mesh {
  private:
   QVector<QVector3D> vertexCoords;
   QVector<QVector3D> vertexNormals;
-  QVector<QVector3D> vertexNormalsSubdivided;
+  QMap<SubdivisionShaderType, QVector<QVector3D>> vertexNormalsSubdivided;
   QVector<QVector3D> blendedNormals;
   QVector<float> vertexBlendWeights;
   QVector<unsigned int> polyIndices;

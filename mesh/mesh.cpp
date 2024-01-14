@@ -32,7 +32,10 @@ void Mesh::setBaseMesh(bool value) {
 
         // Set the subdivision normals to base normals
         computeBaseNormals();
-        setSubdividedNormals(getVertexNorms());
+
+        for (int subdivType = LINEAR; subdivType <= SPHERICAL; ++subdivType) {
+            setSubdividedNormals(static_cast<SubdivisionShaderType>(subdivType), getVertexNorms());
+        }
 
         // Set the blend weights
         computeBaseBlendWeights();
@@ -94,12 +97,12 @@ void Mesh::computeBaseBlendWeights() {
     qDebug() << vertexBlendWeights;
 }
 
-QVector<QVector3D>& Mesh::getBlendedVertexNormals() {
+QVector<QVector3D>& Mesh::getBlendedVertexNormals(SubdivisionShaderType subdivType) {
     blendedNormals.clear();
     blendedNormals.fill({0.0, 0.0, 0.0}, numVerts());
 
     for (int v = 0; v < numVerts(); ++v) {
-        blendedNormals[v] = vertexBlendWeights[v] * vertexNormalsSubdivided[v]
+        blendedNormals[v] = vertexBlendWeights[v] * vertexNormalsSubdivided[subdivType][v]
                             + (1.0 - vertexBlendWeights[v]) * vertexNormals[v];
     }
 

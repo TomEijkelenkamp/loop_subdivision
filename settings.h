@@ -4,6 +4,7 @@
 #include <QMatrix4x4>
 
 #include "shadertypes.h"
+#include "subdivisionshadertypes.h"
 
 /**
  * Struct that contains all the settings of the program. Initialised with a
@@ -20,6 +21,7 @@ typedef struct Settings {
   bool uniformUpdateRequired = true;
 
   ShaderType currentShader = ShaderType::PHONG;
+  SubdivisionShaderType currentSubdivShadingAvgMethod = SubdivisionShaderType::LINEAR;
 
   QMatrix4x4 modelViewMatrix, projectionMatrix;
   QMatrix3x3 normalMatrix;

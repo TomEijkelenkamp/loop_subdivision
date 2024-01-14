@@ -41,7 +41,11 @@ void LoopSubdivider::reserveSizes(Mesh& controlMesh, Mesh& newMesh) const {
     newMesh.getVertices().resize(newNumVerts);
     newMesh.getHalfEdges().resize(newNumHalfEdges);
     newMesh.getFaces().resize(newNumFaces);
-    newMesh.getVertexSubdivNormals().resize(newNumVerts);
+
+    for (int subdivType = LINEAR; subdivType <= SPHERICAL; ++subdivType) {
+        newMesh.getVertexSubdivNormals(static_cast<SubdivisionShaderType>(subdivType)).resize(newNumVerts);
+    }
+
     newMesh.edgeCount = newNumEdges;
 }
 
@@ -217,30 +221,42 @@ void LoopSubdivider::setHalfEdgeData(Mesh& newMesh, int h, int edgeIdx,
 void LoopSubdivider::normalRefinement(Mesh& controlMesh,
                                       Mesh& newMesh) const {
     // Compute normals with angle-weighted average of incident faces normals.
-    // newMesh.computeBaseNormals();
+    newMesh.computeBaseNormals();
 
     // Compute subdivision shading normals with Loop subdivision
-    QVector<Vertex>& vertices = controlMesh.getVertices();
-    QVector<HalfEdge>& halfEdges = controlMesh.getHalfEdges();
-    QVector<QVector3D>& normals = controlMesh.getVertexSubdivNormals();
-    QVector<QVector3D>& newNormals = newMesh.getVertexSubdivNormals();
+    for (int subdivType = LINEAR; subdivType <= SPHERICAL; ++subdivType) {
+        SubdivisionShaderType averagingMethod = static_cast<SubdivisionShaderType>(subdivType);
 
-    // Vertex normals
-    for (int v = 0; v < controlMesh.numVerts(); v++) {
-        newNormals[v] = vertexNormal(vertices[v], normals);
-    }
+        QVector<Vertex>& vertices = controlMesh.getVertices();
+        QVector<HalfEdge>& halfEdges = controlMesh.getHalfEdges();
+        QVector<QVector3D>& normals = controlMesh.getVertexSubdivNormals(averagingMethod);
+        QVector<QVector3D>& newNormals = newMesh.getVertexSubdivNormals(averagingMethod);
 
-    // Edge normals, i.e. the normals of newly created vertices
-    for (int h = 0; h < controlMesh.numHalfEdges(); h++) {
-        HalfEdge currentEdge = halfEdges[h];
-        if (h > currentEdge.twinIdx()) {
-            int v = controlMesh.numVerts() + currentEdge.edgeIdx();
-            newNormals[v] = edgeNormal(currentEdge, normals);
+        // Vertex normals
+        for (int v = 0; v < controlMesh.numVerts(); v++) {
+            newNormals[v] = vertexNormal(vertices[v], normals);
+
+            if (subdivType == SPHERICAL) {
+                // TODO
+            }
         }
-    }
 
-    // Write new normals to mesh
-    newMesh.setSubdividedNormals(newNormals);
+        // Edge normals, i.e. the normals of newly created vertices
+        for (int h = 0; h < controlMesh.numHalfEdges(); h++) {
+            HalfEdge currentEdge = halfEdges[h];
+            if (h > currentEdge.twinIdx()) {
+                int v = controlMesh.numVerts() + currentEdge.edgeIdx();
+                newNormals[v] = edgeNormal(currentEdge, normals);
+
+                if (subdivType == SPHERICAL) {
+                    // TODO
+                }
+            }
+        }
+
+        // Write new normals to mesh
+        newMesh.setSubdividedNormals(averagingMethod, newNormals);
+    }
 }
 
 QVector3D LoopSubdivider::vertexNormal(const Vertex& vertex, const QVector<QVector3D> normals) const {

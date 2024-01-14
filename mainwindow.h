@@ -6,6 +6,7 @@
 
 #include "mesh/mesh.h"
 #include "subdivision/subdivider.h"
+#include "ui_mainwindow.h"
 
 namespace Ui {
 class MainWindow;
@@ -29,6 +30,7 @@ class MainWindow : public QMainWindow {
   void on_ShadingRadioPhong_toggled(bool checked);
   void on_ShadingRadioNormal_toggled(bool checked);
   void on_ShadingRadioIsophote_toggled(bool checked);
+  void on_AveragingBox_clicked(QAbstractButton *button);
   void on_blendNormalsBox_toggled(bool checked);
   void on_IsoSpinBox_valueChanged(int value);
 
