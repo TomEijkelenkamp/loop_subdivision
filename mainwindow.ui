@@ -194,9 +194,9 @@ QGroupBox::title {
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>270</y>
+         <y>260</y>
          <width>201</width>
-         <height>151</height>
+         <height>191</height>
         </rect>
        </property>
        <property name="title">
@@ -205,8 +205,8 @@ QGroupBox::title {
        <widget class="QLabel" name="IsoFrequencyLabel">
         <property name="geometry">
          <rect>
-          <x>30</x>
-          <y>100</y>
+          <x>20</x>
+          <y>160</y>
           <width>101</width>
           <height>16</height>
          </rect>
@@ -218,8 +218,8 @@ QGroupBox::title {
        <widget class="QSpinBox" name="IsoSpinBox">
         <property name="geometry">
          <rect>
-          <x>100</x>
-          <y>100</y>
+          <x>140</x>
+          <y>160</y>
           <width>42</width>
           <height>22</height>
          </rect>
@@ -238,9 +238,9 @@ QGroupBox::title {
         <property name="geometry">
          <rect>
           <x>20</x>
-          <y>20</y>
-          <width>91</width>
-          <height>74</height>
+          <y>30</y>
+          <width>99</width>
+          <height>126</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -262,6 +262,20 @@ QGroupBox::title {
           </widget>
          </item>
          <item>
+          <widget class="QRadioButton" name="ShadingRadioGooch">
+           <property name="text">
+            <string>Gooch</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="ShadingRadioBlendWeights">
+           <property name="text">
+            <string>Blend weights</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QRadioButton" name="ShadingRadioIsophote">
            <property name="text">
             <string>Isophote</string>
@@ -278,7 +292,7 @@ QGroupBox::title {
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>430</y>
+         <y>470</y>
          <width>201</width>
          <height>151</height>
         </rect>

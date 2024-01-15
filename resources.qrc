@@ -6,6 +6,10 @@
         <file>shaders/iso.vert</file>
         <file>shaders/normal.frag</file>
         <file>shaders/normal.vert</file>
+        <file>shaders/gooch.frag</file>
+        <file>shaders/gooch.vert</file>
+        <file>shaders/blendweights.frag</file>
+        <file>shaders/blendweights.vert</file>
     </qresource>
     <qresource prefix="/models">
         <file alias="OpenCube.obj">models/OpenCube.obj</file>

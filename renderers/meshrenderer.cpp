@@ -13,6 +13,7 @@ MeshRenderer::~MeshRenderer() {
 
     gl->glDeleteBuffers(1, &meshCoordsBO);
     gl->glDeleteBuffers(1, &meshNormalsBO);
+    gl->glDeleteBuffers(1, &meshBlendWeightsBO);
     gl->glDeleteBuffers(1, &meshIndexBO);
 }
 
@@ -24,6 +25,8 @@ void MeshRenderer::initShaders() {
     shaders.insert(ShaderType::PHONG, constructDefaultShader("phong"));
     shaders.insert(ShaderType::ISO, constructDefaultShader("iso"));
     shaders.insert(ShaderType::NORMAL, constructDefaultShader("normal"));
+    shaders.insert(ShaderType::GOOCH, constructDefaultShader("gooch"));
+    shaders.insert(ShaderType::BLEND_WEIGHTS, constructDefaultShader("blendweights"));
 }
 
 /**
@@ -44,6 +47,11 @@ void MeshRenderer::initBuffers() {
     gl->glEnableVertexAttribArray(1);
     gl->glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 
+    gl->glGenBuffers(1, &meshBlendWeightsBO);
+    gl->glBindBuffer(GL_ARRAY_BUFFER, meshBlendWeightsBO);
+    gl->glEnableVertexAttribArray(2);
+    gl->glVertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, 0, nullptr);
+
     gl->glGenBuffers(1, &meshIndexBO);
     gl->glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshIndexBO);
 
@@ -59,6 +67,7 @@ void MeshRenderer::updateBuffers(Mesh& mesh) {
     QVector<QVector3D>& vertexCoords = mesh.getVertexCoords();
     QVector<QVector3D>& vertexNormals = settings->blendNormals ? mesh.getBlendedVertexNormals(settings->currentSubdivShadingAvgMethod) :
                                             (settings->subdivisionShading ? mesh.getVertexSubdivNormals(settings->currentSubdivShadingAvgMethod) : mesh.getVertexNorms());
+    QVector<float>& vertexBlendWeights = mesh.getBlendWeights();
     QVector<unsigned int>& polyIndices = mesh.getPolyIndices();
 
     gl->glBindBuffer(GL_ARRAY_BUFFER, meshCoordsBO);
@@ -68,6 +77,10 @@ void MeshRenderer::updateBuffers(Mesh& mesh) {
     gl->glBindBuffer(GL_ARRAY_BUFFER, meshNormalsBO);
     gl->glBufferData(GL_ARRAY_BUFFER, sizeof(QVector3D) * vertexNormals.size(),
                      vertexNormals.data(), GL_STATIC_DRAW);
+
+    gl->glBindBuffer(GL_ARRAY_BUFFER, meshBlendWeightsBO);
+    gl->glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertexNormals.size(),
+                     vertexBlendWeights.data(), GL_STATIC_DRAW);
 
     gl->glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshIndexBO);
     gl->glBufferData(GL_ELEMENT_ARRAY_BUFFER,
