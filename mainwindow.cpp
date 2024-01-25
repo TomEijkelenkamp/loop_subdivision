@@ -126,9 +126,10 @@ void MainWindow::on_ShadingRadioIsophote_toggled(bool checked) {
             ui->MainDisplay->settings.currentShader = BLEND_WEIGHTS;
         } else if (ui->ShadingRadioNormal->isChecked()) {
             ui->MainDisplay->settings.currentShader = NORMAL;
-        } else if (ui->ShadingRadioGooch->isChecked()) {
-            ui->MainDisplay->settings.currentShader = GOOCH;
         }
+        // else if (ui->ShadingRadioGooch->isChecked()) {
+        //     ui->MainDisplay->settings.currentShader = GOOCH;
+        // }
     }
     ui->IsoSpinBox->setEnabled(checked);
     ui->IsoFrequencyLabel->setEnabled(checked);
@@ -147,9 +148,10 @@ void MainWindow::on_ShadingRadioPhong_toggled(bool checked) {
             ui->MainDisplay->settings.currentShader = ISO;
         } else if (ui->ShadingRadioNormal->isChecked()) {
             ui->MainDisplay->settings.currentShader = NORMAL;
-        } else if (ui->ShadingRadioGooch->isChecked()) {
-            ui->MainDisplay->settings.currentShader = GOOCH;
         }
+        // else if (ui->ShadingRadioGooch->isChecked()) {
+        //     ui->MainDisplay->settings.currentShader = GOOCH;
+        // }
     }
     ui->MainDisplay->settings.wireframeMode = false;
     ui->MainDisplay->update();
@@ -166,9 +168,10 @@ void MainWindow::on_ShadingRadioNormal_toggled(bool checked) {
             ui->MainDisplay->settings.currentShader = ISO;
         } else if (ui->ShadingRadioBlendWeights->isChecked()) {
             ui->MainDisplay->settings.currentShader = BLEND_WEIGHTS;
-        } else if (ui->ShadingRadioGooch->isChecked()) {
-            ui->MainDisplay->settings.currentShader = GOOCH;
         }
+        // else if (ui->ShadingRadioGooch->isChecked()) {
+        //     ui->MainDisplay->settings.currentShader = GOOCH;
+        // }
     }
     ui->MainDisplay->settings.wireframeMode = false;
     ui->MainDisplay->update();
@@ -204,9 +207,10 @@ void MainWindow::on_ShadingRadioBlendWeights_toggled(bool checked) {
             ui->MainDisplay->settings.currentShader = ISO;
         } else if (ui->ShadingRadioNormal->isChecked()) {
             ui->MainDisplay->settings.currentShader = NORMAL;
-        } else if (ui->ShadingRadioGooch->isChecked()) {
-            ui->MainDisplay->settings.currentShader = GOOCH;
         }
+        // else if (ui->ShadingRadioGooch->isChecked()) {
+        //     ui->MainDisplay->settings.currentShader = GOOCH;
+        // }
     }
     ui->MainDisplay->settings.wireframeMode = false;
     ui->MainDisplay->update();

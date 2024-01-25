@@ -194,9 +194,9 @@ QGroupBox::title {
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>260</y>
+         <y>270</y>
          <width>201</width>
-         <height>191</height>
+         <height>161</height>
         </rect>
        </property>
        <property name="title">
@@ -206,7 +206,7 @@ QGroupBox::title {
         <property name="geometry">
          <rect>
           <x>20</x>
-          <y>160</y>
+          <y>130</y>
           <width>101</width>
           <height>16</height>
          </rect>
@@ -219,7 +219,7 @@ QGroupBox::title {
         <property name="geometry">
          <rect>
           <x>140</x>
-          <y>160</y>
+          <y>130</y>
           <width>42</width>
           <height>22</height>
          </rect>
@@ -240,7 +240,7 @@ QGroupBox::title {
           <x>20</x>
           <y>30</y>
           <width>99</width>
-          <height>126</height>
+          <height>91</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -258,13 +258,6 @@ QGroupBox::title {
           <widget class="QRadioButton" name="ShadingRadioNormal">
            <property name="text">
             <string>Normal</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QRadioButton" name="ShadingRadioGooch">
-           <property name="text">
-            <string>Gooch</string>
            </property>
           </widget>
          </item>
@@ -292,7 +285,7 @@ QGroupBox::title {
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>470</y>
+         <y>440</y>
          <width>201</width>
          <height>151</height>
         </rect>
