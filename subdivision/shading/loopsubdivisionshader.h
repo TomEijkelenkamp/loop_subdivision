@@ -20,7 +20,8 @@ public:
     QVector3D rotateAroundAxis(QVector3D vector, QVector3D secondVector, float angle) const;
 
     void blendWeightsRefinement(Mesh& controlMesh, Mesh& newMesh) const;
-    float interpolatedBlendWeight(const HalfEdge& edge, const QVector<float> blendWeights) const;
+    float vertexBlendWeight(const Vertex& vertex, const QVector<float> blendWeights) const;
+    float edgeBlendWeight(const HalfEdge& edge, const QVector<float> blendWeights) const;
 };
 
 #endif // LOOPSUBDIVISIONSHADER_H
