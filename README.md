@@ -16,7 +16,7 @@ Vertex point that was just created in the topology refinement, located on the bo
 <br />
 
 Linear interpolation shading (Phong). Interpolation of normals shown on the left, vectors used on the right:
-<img src='./readme_images/phong_normal_interpolation.png' width='300'><img src='./readme_images/phong.png' width='300'><br />
+<img src='./readme_images/phong_normal_interpolation.png' width='300'><img src='./readme_images/phong.png' width='350'><br />
 Startup view with disabled unused ui elements:
 ![disabled_ui](./readme_images/disabled_ui.png)
 
