@@ -1,5 +1,4 @@
 #include "loopsubdivider.h"
-#include "shading/loopsubdivisionshader.h"
 
 #include <QDebug>
 
@@ -23,8 +22,10 @@ Mesh LoopSubdivider::subdivide(Mesh& controlMesh) const {
     geometryRefinement(controlMesh, newMesh);
     topologyRefinement(controlMesh, newMesh);
 
-    loopSubdivisionShader.normalRefinement(controlMesh, newMesh);
-    loopSubdivisionShader.blendWeightsRefinement(controlMesh, newMesh);
+    subdivisionShaderLoop.normalRefinement(controlMesh, newMesh);
+    subdivisionShaderLoop.blendWeightsRefinement(controlMesh, newMesh);
+    subdivisionShaderButterfly.normalRefinement(controlMesh, newMesh);
+    subdivisionShaderButterfly.blendWeightsRefinement(controlMesh, newMesh);
 
     return newMesh;
 }
@@ -45,7 +46,7 @@ void LoopSubdivider::reserveSizes(Mesh& controlMesh, Mesh& newMesh) const {
     newMesh.getHalfEdges().resize(newNumHalfEdges);
     newMesh.getFaces().resize(newNumFaces);
 
-    for (int subdivType = LINEAR; subdivType <= SPHERICAL; ++subdivType) {
+    for (int subdivType = LINEAR; subdivType <= BUTTERFLY; ++subdivType) {
         newMesh.getVertexSubdivNormals(static_cast<SubdivisionShaderType>(subdivType)).resize(newNumVerts);
     }
 

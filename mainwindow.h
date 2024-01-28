@@ -34,6 +34,7 @@ class MainWindow : public QMainWindow {
   void on_ShadingRadioBlendWeights_toggled(bool checked);
   void on_AveragingBox_clicked(QAbstractButton *button);
   void on_blendNormalsBox_toggled(bool checked);
+  void on_butterflyBox_toggled(bool checked);
   void on_IsoSpinBox_valueChanged(int value);
 
  private:

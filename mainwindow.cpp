@@ -237,6 +237,19 @@ void MainWindow::on_blendNormalsBox_toggled(bool checked) {
     ui->MainDisplay->update();
 }
 
+void MainWindow::on_butterflyBox_toggled(bool checked) {
+    ui->MainDisplay->settings.butterflySubdivision = checked;
+
+    if (checked) {
+        ui->MainDisplay->settings.currentSubdivShadingAvgMethod = BUTTERFLY;
+    } else {
+        ui->MainDisplay->settings.currentSubdivShadingAvgMethod = (ui->LinearAveragingRadioButton->isChecked()) ? LINEAR : SPHERICAL;
+    }
+
+    ui->MainDisplay->updateBuffers(meshes[ui->SubdivSteps->value()]);
+    ui->MainDisplay->update();
+}
+
 void MainWindow::on_IsoSpinBox_valueChanged(int value) {
     ui->MainDisplay->settings.isoFrequency = 1 + ui->IsoSpinBox->maximum() - value;
     ui->MainDisplay->settings.uniformUpdateRequired = true;

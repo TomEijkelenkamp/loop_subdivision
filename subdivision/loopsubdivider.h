@@ -4,6 +4,7 @@
 #include "mesh/mesh.h"
 #include "subdivider.h"
 #include "subdivision/shading/loopsubdivisionshader.h"
+#include "subdivision/shading/butterflysubdivisionshader.h"
 
 /**
  * @brief The LoopSubdivider class is a subdivider class that performs Loop
@@ -15,7 +16,8 @@ public:
     Mesh subdivide(Mesh& controlMesh) const override;
 
 private:
-    LoopSubdivisionShader loopSubdivisionShader;
+    LoopSubdivisionShader subdivisionShaderLoop;
+    ButterflySubdivisionShader subdivisionShaderButterfly;
 
     void reserveSizes(Mesh& controlMesh, Mesh& newMesh) const;
     void geometryRefinement(Mesh& controlMesh, Mesh& newMesh) const;

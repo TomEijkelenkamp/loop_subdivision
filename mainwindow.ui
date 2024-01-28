@@ -287,7 +287,7 @@ QGroupBox::title {
          <x>10</x>
          <y>440</y>
          <width>201</width>
-         <height>151</height>
+         <height>171</height>
         </rect>
        </property>
        <property name="title">
@@ -334,17 +334,28 @@ QGroupBox::title {
             </property>
            </widget>
           </item>
+          <item>
+           <widget class="QCheckBox" name="blendNormalsBox">
+            <property name="text">
+             <string>Blend normals</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="Line" name="line_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="butterflyBox">
+            <property name="text">
+             <string>Butterfly subdiv. (std: Loop)</string>
+            </property>
+           </widget>
+          </item>
          </layout>
-        </item>
-        <item>
-         <widget class="QCheckBox" name="blendNormalsBox">
-          <property name="text">
-           <string>Blend normals</string>
-          </property>
-          <property name="checked">
-           <bool>false</bool>
-          </property>
-         </widget>
         </item>
        </layout>
       </widget>

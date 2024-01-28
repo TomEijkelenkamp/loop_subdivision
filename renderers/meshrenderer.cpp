@@ -64,6 +64,7 @@ void MeshRenderer::initBuffers() {
  * @param mesh The mesh to update the buffer contents with.
  */
 void MeshRenderer::updateBuffers(Mesh& mesh) {
+    qDebug() << settings->currentSubdivShadingAvgMethod;
     QVector<QVector3D>& vertexCoords = mesh.getVertexCoords();
     QVector<QVector3D>& vertexNormals = settings->blendNormals ? mesh.getBlendedVertexNormals(settings->currentSubdivShadingAvgMethod) :
                                             (settings->subdivisionShading ? mesh.getVertexSubdivNormals(settings->currentSubdivShadingAvgMethod) : mesh.getVertexNorms());

@@ -33,7 +33,7 @@ void Mesh::setBaseMesh(bool value) {
         // Set the subdivision normals to base normals
         computeBaseNormals();
 
-        for (int subdivType = LINEAR; subdivType <= SPHERICAL; ++subdivType) {
+        for (int subdivType = LINEAR; subdivType <= BUTTERFLY; ++subdivType) {
             setSubdividedNormals(static_cast<SubdivisionShaderType>(subdivType), getVertexNorms());
         }
 

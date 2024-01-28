@@ -28,6 +28,7 @@ typedef struct Settings {
 
   bool subdivisionShading = false;
   bool blendNormals = false;
+  bool butterflySubdivision = false;
   int isoFrequency;
 } Settings;
 

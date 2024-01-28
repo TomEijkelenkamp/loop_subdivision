@@ -1,6 +1,6 @@
 #ifndef SUBDIVISIONSHADERTYPES_H
 #define SUBDIVISIONSHADERTYPES_H
 
-enum SubdivisionShaderType { LINEAR, SPHERICAL };
+enum SubdivisionShaderType { LINEAR, SPHERICAL, BUTTERFLY };
 
 #endif // SUBDIVISIONSHADERTYPES_H
