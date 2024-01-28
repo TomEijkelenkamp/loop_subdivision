@@ -15,7 +15,7 @@ Vertex point that was just created in the topology refinement, located on the bo
 <img src='./readme_images/boundary_edge_stencil.png' width='310'><img src='./readme_images/compute_new_boundary_vertex.png' width='300'><br />
 <br />
 
-Linear interpolation shading (Phong). Interpolation of normals shown on the left, vectors used on the right:
+Normal-vector interpolation shading (Phong). Interpolation of normals shown on the left, vectors used on the right:
 <img src='./readme_images/phong_normal_interpolation.png' width='300'><img src='./readme_images/phong.png' width='400'><br />
 
 
