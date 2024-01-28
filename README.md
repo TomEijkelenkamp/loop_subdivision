@@ -35,26 +35,40 @@ Compute a weighted average of projected normals:<br />
 Tilt normal in question on axis n<sub>k</sub> ×  ̃n<sup>k+1</sup>:<br />
 <img src='./readme_images/tilt_normal.png' width='300'><br />
 
+# Results
+Wireframe, zero, one and two loop subdivision steps:<br />
 <img src='./readme_images/results/raster_0subdiv.jpg' width='300'><br />
 <img src='./readme_images/results/raster_1subdiv.jpg' width='300'><br />
 <img src='./readme_images/results/raster_2subdiv.jpg' width='300'><br />
 <br />
+Phong shading:<br />
 <img src='./readme_images/results/standard_phong.jpg' width='300'><br />
+Subdivision shading, linear weights:<br />
 <img src='./readme_images/results/subdiv_linear_phong.jpg' width='300'><br />
 <br />
+Standard normals:<br />
 <img src='./readme_images/results/standard_normal.jpg' width='300'><br />
+Normals with linear weighted subdivision shading:<br />
 <img src='./readme_images/results/subdiv_linear_normal.jpg' width='300'><br />
 <br />
+Standard isophotes:<br />
 <img src='./readme_images/results/standard_isophote.jpg' width='300'><br />
+Isophotes with linear weighted subdivision shading:<br />
 <img src='./readme_images/results/subdiv_linear_isophote.jpg' width='300'><br />
 <br />
 <br />
 <br />
+Linear subdivision shading blended with basic shading:<br />
 <img src='./readme_images/results/subdiv_linear_blend_phong.jpg' width='300'><br />
+Spherical averaged subdivision shading:<br/>
 <img src='./readme_images/results/subdiv_spherical_phong.jpg' width='300'><br />
 <br />
+Normals for blended:<br/>
 <img src='./readme_images/results/subdiv_linear_blend_normal.jpg' width='300'><br />
+Normals for spherical averaged: <br/>
 <img src='./readme_images/results/subdiv_spherical_normal.jpg' width='300'><br />
 <br />
+Isophotes for blended: <br/>
 <img src='./readme_images/results/subdiv_linear_blend_isophote.jpg' width='300'><br />
+Isophotes for spherical averaging normals: <br/>
 <img src='./readme_images/results/subdiv_spherical_isophote.jpg' width='300'><br />
