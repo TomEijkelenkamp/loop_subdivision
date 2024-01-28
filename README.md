@@ -21,6 +21,8 @@ Normal-vector interpolation shading (Phong) uses the formula to compute light in
 <br />
 
 # Subdivision shading
+The following images show steps involved to redirect all the normals in the mesh to an orientation that is continues relative to its neighbors.<br />
+<br />
 Applying the loop subdivision stencil to vertex normals:<br />
 <img src='./readme_images/normal_weighted_average.png' width='300'><br />
 <br />
