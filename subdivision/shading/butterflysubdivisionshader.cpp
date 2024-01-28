@@ -73,22 +73,18 @@ QVector3D ButterflySubdivisionShader::edgeNormal(const HalfEdge& edge, const QVe
     QVector3D v5, v6, v7, v8 = { 0.0, 0.0, 0.0};
 
     if (edge.prev->twin != nullptr) {
-        qDebug() << edge.prev->twin->prev->origin->index;
         v5 = normals[edge.prev->twin->prev->origin->index];
     }
 
     if (edge.twin->next->twin != nullptr) {
-        qDebug() << edge.twin->next->twin->prev->origin->index;
         v6 = normals[edge.twin->next->twin->prev->origin->index];
     }
 
     if (edge.twin->prev->twin != nullptr) {
-        qDebug() << edge.twin->prev->twin->prev->origin->index;
         v7 = normals[edge.twin->prev->twin->prev->origin->index];
     }
 
     if (edge.next->twin != nullptr) {
-        qDebug() << edge.next->twin->prev->origin->index;
         v8 = normals[edge.next->twin->prev->origin->index];
     }
 
