@@ -1,8 +1,8 @@
 # Loop subdivision
 
 The following stencils were used for subdivision:<br />
-<img src='./readme_images/vertex_stencil.png' width='600'><br />
-<img src='./readme_images/compute_existing_vertex.png' width='600'><br />
+<img src='./readme_images/vertex_stencil.png' width='300'><br />
+<img src='./readme_images/compute_existing_vertex.png' width='300'><br />
 Boundary cases:<br />
 <img src='./readme_images/boundary_case.png' width='600'><br />
 <img src='./readme_images/warren_beta.png' width='200'><br />
