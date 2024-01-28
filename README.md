@@ -32,11 +32,5 @@ The orthogonal plane projection in theory comes down to the following. Each neig
 Compute a weighted average of projected normals:<br />
 <img src='./readme_images/weight_projected_normals.png' width='300'><br />
 <br />
-Tilt normal in question on axis nk ×  ̃nk+1:<br />
+Tilt normal in question on axis n<sub>k</sub> ×  ̃n<sup>k+1</sup>:<br />
 <img src='./readme_images/tilt_normal.png' width='300'><br />
-
-Open Cube with phong shading:
-![opencube_phong_4](./readme_images/opencube_phong_4.png)
-
-Isophotes for the Open Cube:
-![opencube_iso_4](./readme_images/opencube_iso_4.png)
