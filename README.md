@@ -34,3 +34,27 @@ Compute a weighted average of projected normals:<br />
 <br />
 Tilt normal in question on axis n<sub>k</sub> ×  ̃n<sup>k+1</sup>:<br />
 <img src='./readme_images/tilt_normal.png' width='300'><br />
+
+<img src='./readme_images/results/raster_0subdiv.jpg' width='300'><br />
+<img src='./readme_images/results/raster_1subdiv.jpg' width='300'><br />
+<img src='./readme_images/results/raster_2subdiv.jpg' width='300'><br />
+<br />
+<img src='./readme_images/results/standard_phong.jpg' width='300'><br />
+<img src='./readme_images/results/subdiv_linear_phong.jpg' width='300'><br />
+<br />
+<img src='./readme_images/results/standard_normal.jpg' width='300'><br />
+<img src='./readme_images/results/subdiv_linear_normal.jpg' width='300'><br />
+<br />
+<img src='./readme_images/results/standard_isophote.jpg' width='300'><br />
+<img src='./readme_images/results/subdiv_linear_isophote.jpg' width='300'><br />
+<br />
+<br />
+<br />
+<img src='./readme_images/results/subdiv_linear_blend_phong.jpg' width='300'><br />
+<img src='./readme_images/results/subdiv_spherical_phong.jpg' width='300'><br />
+<br />
+<img src='./readme_images/results/subdiv_linear_blend_normal.jpg' width='300'><br />
+<img src='./readme_images/results/subdiv_spherical_normal.jpg' width='300'><br />
+<br />
+<img src='./readme_images/results/subdiv_linear_blend_isophote.jpg' width='300'><br />
+<img src='./readme_images/results/subdiv_spherical_isophote.jpg' width='300'><br />
