@@ -1,6 +1,5 @@
 # Loop subdivision
 
-The following stencils were used for subdivision:<br />
 The following images show the stencils used to compute the new position in the geometry refinement stage. On the left the stencil is shown, the new vertex position depends on the weights of neighboring vertices in the old topology. The vertex in question to be positions is show on the right in the new topology. There are 4 different cases:<br /><br />
 
 Vertex point that exists both in the new and old topology (β = v!=3 ? 3/8v : 3/16):<br />
@@ -15,6 +14,9 @@ Vertex point that was just created in the topology refinement:<br />
 Vertex point that was just created in the topology refinement, located on the boundary of the mesh:<br />
 <img src='./readme_images/boundary_edge_stencil.png' width='310'><img src='./readme_images/compute_new_boundary_vertex.png' width='300'><br />
 <br />
+
+Linear interpolation shading (Phong). Interpolation of normals shown on the left, vectors used on the right:
+<img src='./readme_images/phong_normal_interpolation.png' width='300'><img src='./readme_images/phong.png' width='300'><br />
 Startup view with disabled unused ui elements:
 ![disabled_ui](./readme_images/disabled_ui.png)
 
