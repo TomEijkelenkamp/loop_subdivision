@@ -17,6 +17,19 @@ Vertex point that was just created in the topology refinement, located on the bo
 
 Normal-vector interpolation shading (Phong). Interpolation of normals shown on the left, vectors used on the right:
 <img src='./readme_images/phong_normal_interpolation.png' width='300'><img src='./readme_images/phong.png' width='400'><br />
+<br />
+
+Applying the loop subdivision stencil to vertex normals:<br />
+<img src='./readme_images/normal_weighted_average.png' width='300'><br />
+<br />
+The orthogonal plane projection in theory comes down to the following. Each neighboring normal is set to a similar origin point. All of these normals are going to be projected on the plane orthogonal to the normal being computed. The projection is essentially the shadow that falls on the plane as an infinitely far away light source shines directly onto the plane:<br />
+<img src='./readme_images/orthogonal_plane_projection.png' width='300'><br />
+<br />
+Compute a weighted average of projected normals:<br />
+<img src='./readme_images/weight_projected_normals.png' width='300'><br />
+<br />
+Tilt normal in question on axis nk ×  ̃nk+1:<br />
+<img src='./readme_images/tilt_normal.png' width='300'><br />
 
 
 Startup view with disabled unused ui elements:
