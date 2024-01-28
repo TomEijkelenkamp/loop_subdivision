@@ -15,10 +15,12 @@ Vertex point that was just created in the topology refinement, located on the bo
 <img src='./readme_images/boundary_edge_stencil.png' width='310'><img src='./readme_images/compute_new_boundary_vertex.png' width='300'><br />
 <br />
 
+# Phong shading
 Normal-vector interpolation shading (Phong). Interpolation of normals shown on the left, vectors used on the right:
 <img src='./readme_images/phong_normal_interpolation.png' width='300'><img src='./readme_images/phong.png' width='400'><br />
 <br />
 
+# Subdivision shading
 Applying the loop subdivision stencil to vertex normals:<br />
 <img src='./readme_images/normal_weighted_average.png' width='300'><br />
 <br />
@@ -30,33 +32,6 @@ Compute a weighted average of projected normals:<br />
 <br />
 Tilt normal in question on axis nk ×  ̃nk+1:<br />
 <img src='./readme_images/tilt_normal.png' width='300'><br />
-
-
-Startup view with disabled unused ui elements:
-![disabled_ui](./readme_images/disabled_ui.png)
-
-The following images show a Tetrahedron wireframe visual subdivided in zero to 4 steps:
-![tetrahedron_wireframe_0](./readme_images/tetrahedron_wireframe_0.png)
-![tetrahedron_wireframe_1](./readme_images/tetrahedron_wireframe_1.png)
-![tetrahedron_wireframe_2](./readme_images/tetrahedron_wireframe_2.png)
-![tetrahedron_wireframe_3](./readme_images/tetrahedron_wireframe_3.png)
-![tetrahedron_wireframe_4](./readme_images/tetrahedron_wireframe_4.png)
-
-Tetrahedron after 4 subdivision steps displayed with phong shading:
-![tetrahedron_phong_4](./readme_images/tetrahedron_phong_4.png)
-
-Tetrahedron after 4 subdivision steps displayed with isophotes shading:
-![tetrahedron_iso_4](./readme_images/tetrahedron_iso_4.png)
-
-Isophotes with higher frequency:
-![tetrahedron_isofrequency_4](./readme_images/tetrahedron_isofrequency_4.png)
-
-The following images show a Open Cube wireframe visual subdivided in zero to 4 steps:
-![opencube_wireframe_0](./readme_images/opencube_wireframe_0.png)
-![opencube_wireframe_1](./readme_images/opencube_wireframe_1.png)
-![opencube_wireframe_2](./readme_images/opencube_wireframe_2.png)
-![opencube_wireframe_3](./readme_images/opencube_wireframe_3.png)
-![opencube_wireframe_4](./readme_images/opencube_wireframe_4.png)
 
 Open Cube with phong shading:
 ![opencube_phong_4](./readme_images/opencube_phong_4.png)
