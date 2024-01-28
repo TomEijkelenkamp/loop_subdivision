@@ -4,10 +4,10 @@ The following stencils were used for subdivision:<br />
 <img src='./readme_images/vertex_stencil.png' width='320'><img src='./readme_images/compute_existing_vertex.png' width='300'><br />
 <img src='./readme_images/warren_beta.png' width='200'><br />
 Boundary cases:<br />
-<img src='./readme_images/boundary_vertex_stencil.png' width='320'><img src='./readme_images/compute_existing_boundary_vertex.png' width='300'><br />
+<img src='./readme_images/boundary_vertex_stencil.png' width='330'><img src='./readme_images/compute_existing_boundary_vertex.png' width='300'><br />
 
-<img src='./readme_images/edge_stencil.png' width='320'><img src='./readme_images/compute_new_vertex.png' width='300'><br />
-<img src='./readme_images/boundary_edge_stencil.png' width='320'><img src='./readme_images/compute_new_boundary_vertex.png' width='300'><br />
+<img src='./readme_images/edge_stencil.png' width='330'><img src='./readme_images/compute_new_vertex.png' width='300'><br />
+<img src='./readme_images/boundary_edge_stencil.png' width='310'><img src='./readme_images/compute_new_boundary_vertex.png' width='300'><br />
 
 Startup view with disabled unused ui elements:
 ![disabled_ui](./readme_images/disabled_ui.png)
