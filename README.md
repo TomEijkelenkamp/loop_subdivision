@@ -16,7 +16,7 @@ Vertex point that was just created in the topology refinement, located on the bo
 <br />
 
 # Phong shading
-Normal-vector interpolation shading (Phong) uses the formula to compute light intensities: I = k<sub>a</sub> + k<sub>d</sub> (L dot N) + k<sub>s</sub> (R dot V)<sup>α</sup>.  Interpolation of normals shown on the left, vectors used on the right:
+Normal-vector interpolation shading (Phong) uses the formula to compute light intensities: I = k<sub>a</sub> + k<sub>d</sub> (L dot N) + k<sub>s</sub> (R dot V)<sup>α</sup>.  Interpolation of normals shown on the left, vectors used on the right:<br />
 <img src='./readme_images/phong_normal_interpolation.png' width='300'><img src='./readme_images/phong.png' width='400'><br />
 <br />
 
